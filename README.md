@@ -20,26 +20,50 @@ Our goal is to change the front end from JSF/Primefaces to vaadin
 
 --------------------------------------------------------------------------------------------------------------------
 
-  Products page :
+  Products :
 ![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/crm/ProduitCrud.PNG?raw=true "Optional Title")
 
 --------------------------------------------------------------------------------------------------------------------
 
-  Detail command page :
+  Detail command :
 ![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/crm/detailCmd.PNG?raw=true "Optional Title")
 
 --------------------------------------------------------------------------------------------------------------------
 
-  Detail Client page :
+  Detail Client :
 ![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/crm/detailClient.PNG?raw=true "Optional Title")
 
 --------------------------------------------------------------------------------------------------------------------
 
-  Chat page :
+  Chat :
 ![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/crm/chat.PNG?raw=true "Optional Title")
 
 --------------------------------------------------------------------------------------------------------------------
 
-  Stat page :
+  Stat  :
 ![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/crm/stat1.PNG?raw=true "Optional Title")
 ![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/crm/stat2.PNG?raw=true "Optional Title")
+
+* MobileStore ScreenShots :
+
+--------------------------------------------------------------------------------------------------------------------
+
+  smartphones :
+![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/shop.PNG?raw=true "Optional Title")
+
+--------------------------------------------------------------------------------------------------------------------
+
+  Detail Command :
+![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/detailCommande.PNG?raw=true "Optional Title")
+
+--------------------------------------------------------------------------------------------------------------------
+
+  Sign up :
+![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/newClient.PNG?raw=true "Optional Title")
+
+-------------------------------------------------------------------------------------------------------------------
+
+  my cart :
+![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/panier.PNG?raw=true "Optional Title")
+
+
