@@ -8,3 +8,4 @@ The project consists of three main modules :
   * CrmEspaceClient-web : contains the front end of the online mobile shopping ( JSF and primefaces ).
  
 Our goal is to change the front end from JSF/Primefaces to vaadin
+![Alt text](https://googledrive.com/host/0B-Fsn0T9r-1FZWc4XzZLWkpiUXM/AddPanier.PNG?raw=true "Optional Title")
