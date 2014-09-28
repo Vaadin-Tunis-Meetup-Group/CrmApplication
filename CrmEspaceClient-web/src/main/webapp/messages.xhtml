@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/layout/template.xhtml">
+
+
+
+            <ui:define name="content">
+                <p:panel style="margin-right: 5%" header="Mes messages">
+                         <p:commandButton value="Envoyer un message" onclick="PF('sendMessageDlg').show()" />
+                         <p:tabView id="myTab">
+     <p:tab title="Messages réçu">
+            
+                        <p:dataTable value="#{loginManager.currentClient.messageRecu}" var="msgr"
+                                     paginator="true" rows="5">
+                            <p:column headerText="Envoyé par ">
+                                            #{msgr.fromUser}  
+                                            </p:column>
+
+                                            <p:column headerText="Sujet">
+                                                #{msgr.sujet}
+                                            </p:column>
+
+                                            <p:column headerText="Date" >
+                                                <h:outputText value="#{msgr.dateEnv}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy hh:mm" />
+                                                </h:outputText>
+                                            </p:column>
+
+                                            <p:column>
+                                                <p:commandButton  icon="ui-icon ui-icon-search" title="View">
+                                                    <f:setPropertyActionListener value="#{msgr}" target="#{clientManager.selectedMsg}" />
+                                                </p:commandButton>
+                                            </p:column>
+
+                        </p:dataTable>
+           <p:fieldset id="msgViewer1" rendered="#{not empty clientManager.selectedMsg}" legend="Contenu du message">
+               
+                     <h:outputText value="#{clientManager.selectedMsg.contenu}" rendered="#{not empty clientManager.selectedMsg}" />
+                          
+         </p:fieldset>
+     </p:tab>
+     <p:tab title="Messages envoyées">
+                  
+                        <p:dataTable value="#{loginManager.currentClient.messageEnvoye}" var="msgr"
+                                     widgetVar="msgEnv"
+                                     paginator="true" rows="5">
+                            <p:column headerText="Envoyé A ">
+                                            #{msgr.toUser}  
+                                            </p:column>
+
+                                            <p:column headerText="Sujet">
+                                                #{msgr.sujet}
+                                            </p:column>
+
+                                            <p:column headerText="Date" >
+                                                <h:outputText value="#{msgr.dateEnv}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy hh:mm" />
+                                                </h:outputText>
+                                            </p:column>
+
+                                            <p:column>
+                                                <p:commandButton icon="ui-icon ui-icon-search" title="View">
+                                                    <f:setPropertyActionListener value="#{msgr}" target="#{clientManager.selectedMsg}" />
+                                                </p:commandButton>
+                                            </p:column>
+
+                        </p:dataTable>
+         <p:fieldset id="msgViewer" rendered="#{not empty clientManager.selectedMsg}" legend="Contenu du message">
+               
+                     <h:outputText value="#{clientManager.selectedMsg.contenu}" rendered="#{not empty clientManager.selectedMsg}" />
+                          
+         </p:fieldset>
+        
+     </p:tab>
+                </p:tabView>
+                </p:panel>
+                <p:dialog widgetVar="sendMessageDlg" header="Envoyer un message" width="600" height="400"  hideEffect="fade" >
+                    <h:form id="MessageForm">
+                         <p:growl id="msgGrowl" showDetail="true" />
+                    <h:panelGrid columns="2">
+                        
+                        <h:outputLabel value="Sujet : " for="sujet" />
+                        <p:inputText value="#{clientManager.message.sujet}" required="true" id="sujet" />
+
+                        <h:outputLabel value="Desntinataire : " for="dest" />
+                        <p:selectOneMenu value="#{clientManager.idProfil}" required="true" id="dest">
+                            <f:selectItem noSelectionOption="true" itemLabel="Sélectionnez le destinataire" />
+                            <f:selectItem itemValue="0" itemLabel="Administration" />
+                            <f:selectItem itemValue="1" itemLabel="Service Commercial" />
+                            <f:selectItem itemValue="2" itemLabel="Service après vente" />
+                        </p:selectOneMenu>
+                        
+                         <h:outputLabel value="Messages : " for="dest" />
+                         <p:inputTextarea cols="40" rows="10"  value="#{clientManager.message.contenu}" required="true"  />
+                         
+
+                    </h:panelGrid>
+
+                    <p:separator />
+                    <h:panelGrid columns="2" style="text-align: center">
+                        <p:commandButton icon="ui-icon-check" actionListener="#{clientManager.sendMessage}"
+                                       
+                                         value="Envoyer" update="msgGrowl,@all" />
+                        <p:commandButton icon="ui-icon-close"  value="Annuler" />
+                    </h:panelGrid>
+                    </h:form>
+                    
+                </p:dialog>
+            </ui:define>
+ <ui:define name="left">
+               
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

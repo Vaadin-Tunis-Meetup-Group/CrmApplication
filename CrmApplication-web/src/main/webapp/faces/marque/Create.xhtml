@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MarqueCreateDlg" widgetVar="MarqueCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Ajouter une nouvelle marque" closeOnEscape="true">
+
+            <h:form id="MarqueCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateMarqueLabel_libelle}" for="libelle" />
+                        <p:inputText id="libelle" value="#{marqueController.selected.libelle}" title="#{myBundle.CreateMarqueTitle_libelle}" required="true" requiredMessage="#{myBundle.CreateMarqueRequiredMessage_libelle}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateMarqueLabel_description}" for="description" />
+                        <p:inputTextarea rows="4" cols="30" id="description" value="#{marqueController.selected.description}" title="#{myBundle.CreateMarqueTitle_description}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{marqueController.saveNew}" value="#{myBundle.Save}" update="display,:produitTab:MarqueListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="Pf('MarqueCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+        <script type="text/javascript">
+function handleSubmit(xhr, status, args) {
+   
+    if(args.validationFailed) {
+        PF('MarqueCreateDialog').jq.effect('shake', { times:3 }, 100);
+    } else {
+        PF('MarqueCreateDialog').hide();
+    }
+}
+        </script>
+    </ui:composition>
+
+</html>

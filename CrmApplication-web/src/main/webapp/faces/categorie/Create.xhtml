@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CategorieCreateDlg" widgetVar="CategorieCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Ajouter une nouvelle Catégorie de produit" closeOnEscape="true">
+
+            <h:form id="CategorieCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateCategorieLabel_libelle}" for="libelle" />
+                        <p:inputText id="libelle" value="#{categorieController.selected.libelle}" title="#{myBundle.CreateCategorieTitle_libelle}" required="true" requiredMessage="#{myBundle.CreateCategorieRequiredMessage_libelle}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCategorieLabel_description}" for="description" />
+                        <p:inputTextarea rows="4" cols="30" id="description" value="#{categorieController.selected.description}" title="#{myBundle.CreateCategorieTitle_description}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{categorieController.saveNew}" value="#{myBundle.Save}" update="display,:produitTab:CategorieListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('CategorieCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+<script type="text/javascript">
+function handleSubmit(xhr, status, args) {
+   
+    if(args.validationFailed) {
+        PF('CategorieCreateDialog').jq.effect('shake', { times:3 }, 100);
+    } else {
+        PF('CategorieCreateDialog').hide();
+    }
+}
+        </script>
+    </ui:composition>
+
+</html>

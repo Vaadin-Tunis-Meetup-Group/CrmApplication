@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UtilisateurViewDlg" widgetVar="UtilisateurViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Détail utilisateur" closeOnEscape="true">
+
+            <h:form id="UtilisateurViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{utilisateurController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewUtilisateurLabel_nom}"/>
+                        <h:outputText value="#{utilisateurController.selected.nom}" title="#{myBundle.ViewUtilisateurTitle_nom}"/>
+
+                        <h:outputText value="Prénom"/>
+                        <h:outputText value="#{utilisateurController.selected.prenom}" title="#{myBundle.ViewUtilisateurTitle_prenom}"/>
+
+                        <h:outputText value="#{myBundle.ViewUtilisateurLabel_login}"/>
+                        <h:outputText value="#{utilisateurController.selected.login}" title="#{myBundle.ViewUtilisateurTitle_login}"/>
+
+                        <h:outputText value="Mot de passe"/>
+                        <h:outputText value="#{utilisateurController.selected.mdp}" title="#{myBundle.ViewUtilisateurTitle_mdp}"/>
+
+                        <h:outputText value="#{myBundle.ViewUtilisateurLabel_email}"/>
+                        <h:outputText value="#{utilisateurController.selected.email}" title="#{myBundle.ViewUtilisateurTitle_email}"/>
+
+                        <h:outputText value="#{myBundle.ViewUtilisateurLabel_adresse}"/>
+                        <h:outputText value="#{utilisateurController.selected.adresse}" title="#{myBundle.ViewUtilisateurTitle_adresse}"/>
+
+                        <h:outputText value="Date d'ajout"/>
+                        <h:outputText value="#{utilisateurController.selected.dateAjout}" title="#{myBundle.ViewUtilisateurTitle_dateAjout}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUtilisateurLabel_telephone}"/>
+                        <h:outputText value="#{utilisateurController.selected.telephone}" title="#{myBundle.ViewUtilisateurTitle_telephone}"/>
+
+                        <h:outputText value="#{myBundle.ViewUtilisateurLabel_id}"/>
+                        <h:outputText value="#{utilisateurController.selected.id}" title="#{myBundle.ViewUtilisateurTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewUtilisateurLabel_profil}"/>
+                        <h:outputText value="#{utilisateurController.selected.profil.libelle}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('UtilisateurViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

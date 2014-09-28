@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/layout/template.xhtml">
+
+            <ui:define name="title">
+                Détail Réclamation
+            </ui:define>
+
+            <ui:define name="menu">
+                               <ui:include  src="/WEB-INF/layout/appmenu.xhtml"/>
+
+            </ui:define>
+
+            <ui:define name="body">
+                  <p:fieldset legend="Détail Réclamation">
+                      <h:form>
+                    <center>
+                        <h:panelGrid cellspacing="10" style="text-align: center" columns="2">
+                        
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                Client
+                            </f:facet>
+                            
+                             <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_idclient}"/>
+                             <h:outputText value="#{reclamationController.selected.client.idclient}" title="#{myBundle.ViewClientTitle_idclient}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_nom}"/>
+                        <h:outputText value="#{reclamationController.selected.client.nom}" title="#{myBundle.ViewClientTitle_nom}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_prenom}"/>
+                        <h:outputText value="#{reclamationController.selected.client.prenom}" title="#{myBundle.ViewClientTitle_prenom}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_cin}"/>
+                        <h:outputText value="#{reclamationController.selected.client.cin}" title="#{myBundle.ViewClientTitle_cin}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_adresse}"/>
+                        <h:outputText value="#{reclamationController.selected.client.adresse}" title="#{myBundle.ViewClientTitle_adresse}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_email}"/>
+                        <h:outputText value="#{reclamationController.selected.client.email}" title="#{myBundle.ViewClientTitle_email}"/>
+
+                        <h:outputText style="font-weight: bold" value="Nombre de commande passé"/>
+                        <h:outputText value="#{reclamationController.selected.client.commandeCollection.size()}" />
+
+                        </p:panelGrid>
+                          <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                 Commande Concernée
+                            </f:facet>
+                              
+                             <h:outputText style="font-weight: bold" value="Numéro commande"/>
+                             <h:outputText value="#000#{reclamationController.selected.commande.id}"/>
+                             
+                              <h:outputText style="font-weight: bold" value="Date de commande"/>
+                              <h:outputText value="#{reclamationController.selected.commande.dateCmd}"/>
+                              
+                              <h:outputText style="font-weight: bold" value="Nombre des articles"/>
+                              <h:outputText value="#{reclamationController.selected.commande.ligneCommandeCollection.size()}"/>
+                              
+                               <h:outputText style="font-weight: bold" value="Montant totale"/>
+                               <h:outputText value="#{reclamationController.selected.commande.montant}"/>
+                               
+                                <h:outputText style="font-weight: bold" value="Commentaire"/>
+                                <h:outputText value="#{reclamationController.selected.commande.description}"/>
+
+                          </p:panelGrid>
+                    </h:panelGrid>
+                        <br/>
+                        <p:panelGrid style="width: 825px" columns="1">
+                            <f:facet name="header">
+                                Sujet Réclamation
+                            </f:facet>
+                            <h:outputText escape="false" value="#{reclamationController.selected.sujet}" />
+                        </p:panelGrid>
+                        <p:panelGrid style="text-align: center" columns="1">
+                            <f:facet name="header">
+                                Réponse Service après vente
+                            </f:facet>
+                             <p:editor id="editor"  widgetVar="editorWidget" value="#{reclamationController.selected.reponse}" width="800" />
+                          
+<p:commandButton style="font-size: large" icon="ui-icon-check" actionListener="#{reclamationController.sendReponse}" value="Envoyer votre réponse" />
+                         </p:panelGrid>
+                    </center>
+                          <br/>
+                          <p:button value="Retourner à la liste des réclamations"
+                                    style="margin-left: 80px"
+                                    icon="ui-icon-arrowthick-1-w"
+                                    outcome="/faces/reclamation/list" />
+                  </h:form>
+                  </p:fieldset>
+            </ui:define>
+
+             <ui:define name="gauche">
+                 <p:menu style="width: 100%">  
+        <p:submenu label="Gérer les Réclamations">  
+            <p:menuitem value="Réclamation non lus" outcome="/faces/reclamation/list"  />  
+           
+            <p:separator />
+                        <p:menuitem value="Historique des réclamations" outcome="/faces/reclamation/historique" />  
+
+        </p:submenu>  </p:menu>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

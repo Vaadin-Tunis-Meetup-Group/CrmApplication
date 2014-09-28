@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NewMessageDlg" widgetVar="NewMsgDialog" modal="true" resizable="false" appendTo="@(body)" header="Envoyer un nouveau message" closeOnEscape="true">
+            <h:form id="MessageForm">
+                <p:growl id="msgGrowl" showDetail="true" />
+                <h:panelGrid columns="2">
+
+                    <h:outputLabel value="Sujet : " for="sujet" />
+                    <p:inputText value="#{messageController.message.sujet}" required="true" id="sujet" />
+
+                    <h:outputLabel value="Client : " for="dest" />
+                    <p:selectOneMenu value="#{messageController.message.toClient}" 
+                                     converter="clientConverter"
+                                     required="true" id="dest">
+                        <f:selectItem noSelectionOption="true" itemLabel="Sélectionnez Client" />
+                        <f:selectItems value="#{messageController.allClient}" var="cl"
+                                       itemLabel="#{cl}"
+                                       itemValue="#{cl}" />
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="Messages : " for="dest" />
+                    <p:inputTextarea cols="50" rows="10"  value="#{messageController.message.contenu}" required="true"  />
+
+
+                </h:panelGrid>
+
+                <p:separator />
+                <h:panelGrid columns="2" style="text-align: center">
+                    <p:commandButton icon="ui-icon-check" actionListener="#{messageController.sendMessage}"
+                                     oncomplete="PF('NewMsgDialog').hide()" 
+                                     process="@form"
+                                     value="Envoyer" update="msgGrowl," />
+                    <p:commandButton icon="ui-icon-close"  value="Annuler" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+
+</html>

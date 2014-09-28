@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/layout/template.xhtml">
+
+
+            <ui:define name="content">
+
+
+                <p:wizard step="#{loginManager.currentStep}"  style="margin-left: 220px;margin-bottom: 250px" flowListener="#{cartManager.onFlowProcess}"    nextLabel="Suivant" backLabel="Précedent">
+                    <p:tab id="p1" title="Mon Panier">
+                        <p:dataTable value="#{cartManager.cady}" var="cart"
+                                     selectionMode="single" id="Data"
+                                     selection="#{cartManager.selectedObj}"
+                                     rowKey="#{cart.produit.idproduit}"
+                                     emptyMessage="Panier vide"
+                                     >
+                            <f:facet name="header">  
+                                Mon panier
+                            </f:facet>
+                            <p:column headerText="Télephone">
+                                <h:outputText value="#{cart.produit.libelle}"/>
+                            </p:column>
+                            <p:column headerText="image">
+                                <center>
+                                    <p:graphicImage width="50px" height="50px" value="/resources/images/produit/#{cart.produit.image}.jpeg"/>
+                                </center>
+                            </p:column>
+
+                            <p:column headerText="Prix">
+                                <h:outputText value="#{cart.produit.pu} $"/>
+                            </p:column>
+                            <p:column headerText="Quantite">
+
+                                <p:spinner size="20"  max="#{cart.produit.quantite}" min="1" value="#{cart.qte}" >
+                                    <p:ajax event="change" listener="#{cartManager.spinnerQte()}" update=":topForm:mypanel :contentForm:pan" />
+                                </p:spinner>
+                            </p:column>
+                            <p:column>
+                                <center>
+
+                                    <p:commandButton actionListener="#{cartManager.deleteProduct(event)}" update=":topForm:mypanel :contentForm:pan :contentForm:mygrowl :contentForm:vide Data" icon="ui-icon-closethick" >
+                                        <p:confirm header="Confirmation" message="Voulez vous vraiement supprimer ce produit de votre panier?" icon="ui-icon-alert" />
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                    </p:confirmDialog> 
+
+                                    <p:commandButton id="viewButton" icon="ui-icon-search"  
+                                                     update=":contentForm:detailProd"
+                                                     oncomplete="PF('detailPanier').show()"
+                                                     title="voir detail" >
+                                    </p:commandButton>
+
+
+                                </center>
+                            </p:column>   
+
+                        </p:dataTable>
+                        <h:panelGrid id="pan" columns="2" style="font-size: large;margin-left: 70%;margin-top: 2%">
+                            <h:outputText value="Prix Totale : "/>
+                            <span style="font-size: large" class="badge badge-warning" >#{cartManager.totalPrix} DT</span>
+                        </h:panelGrid>
+                        <p:commandButton id="vide" rendered="#{cartManager.totalPrix == 0}" value="Voir Nos offres" action="phones?faces-redirect=true" icon="ui-icon-search" style="font-size: large;margin-left: 69%;margin-top: 10px"/>
+
+
+                    </p:tab>
+                    <p:tab id="p2" title="Commande / Devis">
+                        <center>
+                        <p:selectOneRadio id="customRadio"  value="#{cartManager.currentCmd.type}" requiredMessage="vous devez indiquer le type de demande" required="true" layout="custom">  
+                            <f:selectItem itemLabel="Option 1" itemValue="#{true}" />  
+                                            <f:selectItem itemLabel="Option 2" itemValue="#{false}" />  
+                                         
+                                        </p:selectOneRadio>  
+                     
+                        <h:panelGrid columns="2" cellspacing="10">
+                            <p:panel header="Commande">
+                                <h:panelGrid columns="1">
+                                <h:outputLabel value="Votre commande sera transmise à notre service commercial ! Nous allons vous contacter lorsque elle sera confirmé" />
+                                <p:radioButton for="customRadio" itemIndex="0" />
+                                </h:panelGrid>
+                            </p:panel>
+                            
+                              <p:panel header="Devis">
+                                <h:panelGrid columns="1">
+                                <h:outputLabel value="Votre demande de devis sera transmise à notre service commercial ! Nous allons vous répondre par mail" />
+                                <p:radioButton for="customRadio" itemIndex="1" />
+                                </h:panelGrid>
+                            </p:panel>
+                        </h:panelGrid>
+
+                        </center>
+                    </p:tab>
+                    <p:tab id="p3" title="Identification">
+                       
+                        <p:messages id="msgs" closable="true" />
+                        <p:outputPanel style="margin-top: 20px" id="identif" rendered="#{empty loginManager.currentClient}">
+                            <center>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel style="font-weight: bold" value="Login" />
+                                <p:inputText style="width: 200px;font-weight: bold" label="Login" requiredMessage="Vous devez indiquer votre login " placeholder="Tapez votre login" value="#{loginManager.login}" required="true" />
+
+                                <p:outputLabel style="font-weight: bold" value="Mot de passe" />
+                                <p:password  style="width: 200px;font-weight: bold" label="Mot de passe" requiredMessage="Vous devez indiquer votre mot de passe "  placeholder="Tapez votre mot de passe"  value="#{loginManager.password}" required="true" />
+                            </h:panelGrid>
+                            <p:separator />
+                            <h:panelGrid columns="2">
+                                <p:commandButton style="font-size: large" update="msgs" action="#{loginManager.loginActionPanier()}" value="Valider" icon="ui-icon-check" />
+                                <p:commandButton style="font-size: large" value="Annuler" icon="ui-icon-close" />
+                            </h:panelGrid>
+                            <br/>
+                            <p:commandLink process="@this" value="Je suis un nouveau client ! Créer un compte" action="signup?faces-redirect=true" />
+                            </center>
+
+                        </p:outputPanel>
+                       
+                        <p:outputPanel style="margin-top: 30px" id="logged" rendered="#{not empty loginManager.currentClient}">
+                            <center>
+                             <p:panelGrid columns="2">
+                            <f:facet name="header">
+                               Détail Client
+                            </f:facet>
+                            
+                             <h:outputText style="font-weight: bold" value="Votre numéro"/>
+                             <h:outputText value="#000#{loginManager.currentClient.idclient}"/>
+
+                        <h:outputText style="font-weight: bold" value="Nom"/>
+                        <h:outputText value="#{loginManager.currentClient.nom}" />
+
+                        <h:outputText style="font-weight: bold" value="Prénom"/>
+                        <h:outputText value="#{loginManager.currentClient.prenom}"/>
+
+                        <h:outputText style="font-weight: bold" value="CIN"/>
+                        <h:outputText value="#{loginManager.currentClient.cin}" />
+
+                      
+                       
+                        <h:outputText style="font-weight: bold" value="Nombre de commande passé"/>
+                        <h:outputText value="#{loginManager.currentClient.commandeCollection.size()}" />
+
+                        </p:panelGrid>
+                                </center>
+                        </p:outputPanel>
+                        
+                    </p:tab>
+                    <p:tab id="p4" title="Confirmation">
+                        <center>
+                            <p:panelGrid style="margin-top: 30px" columns="2">
+                            <f:facet name="header">
+                               Détail Commande
+                            </f:facet>
+                            
+                             <h:outputText style="font-weight: bold" value="Type"/>
+                             <h:outputText value="#{cartManager.currentCmd.type?'Commande':'Demande de devis'}"/>
+                             
+                              <h:outputText style="font-weight: bold" value="Client"/>
+                              <h:outputText value="#{loginManager.currentClient}"/>
+                              
+                               <h:outputText style="font-weight: bold" value="Nombre d'articles"/>
+                               <h:outputText value="#{cartManager.nbrArticle}"/>
+                               
+                                <h:outputText style="font-weight: bold" value="Montant"/>
+                                <p:outputPanel>
+                                    <span class="badge badge-important">#{cartManager.totalPrix} €</span>
+                                </p:outputPanel>                                
+                               </p:panelGrid>
+                            
+                             <p:commandButton value="Confirmer" actionListener="#{cartManager.validate}" icon="ui-icon-check" style="font-size: large;margin-top: 20px"/>
+
+
+
+                        </center>
+                    </p:tab>
+
+                </p:wizard>
+
+
+                <p:dialog widgetVar="loginPanier" width="400" height="200"
+                          dynamic="true" appendTo="@(body)" closable="true"
+                          showEffect="bounce" header="Authentification"
+                          >
+                    <h:form>
+                        <p:growl id="growl" showDetail="true" />
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Login" />
+                            <p:inputText value="#{loginManager.login}" required="true" />
+
+                            <p:outputLabel value="Mot de passe" />
+                            <p:password value="#{loginManager.password}" required="true" />
+                        </h:panelGrid>
+                        <p:separator />
+                        <h:panelGrid columns="2">
+                            <p:commandButton update="growl" process="@form" actionListener="#{loginManager.loginAction(event)}" value="Valider" icon="ui-icon-check" />
+                            <p:commandButton value="Annuler" icon="ui-icon-close" />
+                        </h:panelGrid>
+                        <p:commandLink style="margin-top: 20px;margin-left: 50px;color: blue" value="Nouveau Client ! Créer un nouveau compte" process="@this" action="signup?faces-redirect=true" />
+                    </h:form>
+                </p:dialog>  
+
+                <p:dialog id="dialog" width="400" closable="false" height="100" header="Commande envoyé avec succées" widgetVar="validation" dynamic="true" appendTo="@(body)" modal="true" >  
+                    <h:outputText value="Votre demande a été envoyer à notre service commercial ! Nous allons vous répondre le plutot possible" /> 
+                    <center>
+                        <p:commandButton value="Valider" process="@this" action="phones?faces-redirect=true" style="font-size: large;margin-top: 20px" icon="ui-icon-check" /> </center>
+                </p:dialog>  
+
+                <p:dialog 
+                    style="background: white" showEffect="puff"
+                    hideEffect="explode" header="Détail Produit"
+                    width="400" height="450" widgetVar="detailPanier">  
+                    <p:outputPanel id="detailProd" style="text-align:center;" layout="block">  
+                        <center>
+                            <br/>
+                            <p:graphicImage value="/resources/images/produit/#{cartManager.selectedObj.produit.image}.jpeg"/>  
+                            <br/> <br/>   
+                            <p:panelGrid  columns="2" >  
+                                <f:facet name="header">
+                                    Détail du produit dans le panier
+                                </f:facet>
+                                <h:outputText style="font-weight: bold" value="Libellé"/>
+                                <h:outputText  value="#{cartManager.selectedObj.produit.libelle} "/>
+                                <h:outputText style="font-weight:  bold" value="Quantité"/>
+                                <h:outputText  value="#{cartManager.selectedObj.qte} "/>
+                                <h:outputText style="font-weight:  bold" value="Prix unitaire"/>
+                                <p:outputPanel>
+                                    <span class="badge badge-important">#{cartManager.selectedObj.produit.pu} €</span>
+                                </p:outputPanel>  
+                                <h:outputText style="font-weight:  bold" value="Totale"/>
+                                <p:outputPanel>
+                                    <span class="badge badge-important">#{cartManager.selectedObj.prix} €</span>
+                                </p:outputPanel> 
+                            </p:panelGrid>  
+                        </center>
+                    </p:outputPanel>  
+                </p:dialog>  
+
+            </ui:define>
+
+            <ui:define name="left">
+                <p:accordionPanel multiple="true" style="width: 280px">
+                    <p:tab title="Catgéorie">
+                        <p:selectManyCheckbox id="grid" converter="categorieConverter"
+                                              value="#{phonesManager.selectedCateg}" layout="pageDirection" >
+                            <f:selectItems value="#{phonesManager.allCateg}" var="categ" itemLabel="#{categ}" itemValue="#{categ}" />
+                        </p:selectManyCheckbox>
+                    </p:tab>
+                    <p:tab title="Marque">
+                        <p:selectManyCheckbox  converter="marqueConverter"
+                                               value="#{phonesManager.selectedMarque}" layout="pageDirection" >
+                            <f:selectItems value="#{phonesManager.allMarque}" var="m" itemLabel="#{m}" itemValue="#{m}" />
+                        </p:selectManyCheckbox>
+                    </p:tab>
+                    <p:tab title="Prix">
+                        <p:selectOneRadio layout="pageDirection" value="#{phonesManager.selectedPrix}" >
+                            <f:selectItem itemLabel="Inférieur à 100 $" itemValue="1" />
+                            <f:selectItem itemLabel="Entre 100 et 500" itemValue="2" />
+                            <f:selectItem itemLabel="Entre 500 et 1000" itemValue="3" />
+                            <f:selectItem itemLabel="Supérieur à 1000" itemValue="4" />
+
+
+                        </p:selectOneRadio>
+                    </p:tab>
+                </p:accordionPanel>
+                <br/>
+                      <p:panel header="Top vente" style="background:#ffffff ;width: 180px;height: 250px;margin-left: 50px">  
+     <!--
+     <a href="https://github.com/you"><img style="position: relative; top: 0; left: 0; border: 0;width: 20px" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"/></a>
+                -->
+     <h:panelGrid columns="1" style="width:100%"> 
+             
+                <p:commandLink action="JouetDetail?faces-redirect=true" title="voir details">
+                       <center>
+                           <p:graphicImage width="90px" height="90px" value="/resources/images/produit/#{phonesManager.topVente.image}.jpeg"/>
+                        </center>
+                    <f:setPropertyActionListener value="#{phonesManager.topVente}"   
+                                                 target="#{phonesManager.selected}" />  
+             
+                </p:commandLink>
+                <p:commandLink    oncomplete="PF('phoneDlg').show()" title="voir Detail">
+                   
+                          <p:graphicImage style="margin-left: 120px" width="20" height="20" value="/resources/images/detail.png"/>
+                       
+                    <f:setPropertyActionListener value="#{phonesManager.topVente}"   
+                                                 target="#{phonesManager.selected}" />  
+             
+                </p:commandLink>
+                  
+                <p:commandLink id="fade" style="margin-left: 30%;font-size: 14" title="voir fiche du produit" action="detailPhone?faces-redirect=true" value="#{phonesManager.topVente.libelle}">
+                <f:setPropertyActionListener value="#{phonesManager.topVente}"   
+                                                 target="#{phonesManager.selected}" />  
+                </p:commandLink>
+                <span style="margin-left: 30%" class="badge badge-important pull-right"> #{phonesManager.topVente.pu} € </span>
+                
+                <p:commandButton value="Ajouter Au Panier"
+                                 oncomplete="PF('infoCmd').show()"
+                                 style="font-size: 10px;margin-top: 10px" icon="ui-icon-cart" >
+                    <f:setPropertyActionListener value="#{phone}"   
+                                                 target="#{phonesManager.selected}" />  
+                </p:commandButton>
+               
+            </h:panelGrid>  
+        </p:panel>  
+              <br/>
+                <center>
+                    <img style="margin-left: 40%" src="resources/images/payment_methods.png" title="Bootshop Payment Methods" alt="Payments Methods" />
+                </center>
+            </ui:define>
+ 
+        </ui:composition> 
+
+    </body>
+</html>

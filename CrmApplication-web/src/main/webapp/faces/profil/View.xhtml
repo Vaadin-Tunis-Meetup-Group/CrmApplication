@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProfilViewDlg" widgetVar="ProfilViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.ViewProfilTitle}" closeOnEscape="true">
+
+            <h:form id="ProfilViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{profilController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProfilLabel_id}"/>
+                        <h:outputText value="#{profilController.selected.id}" title="#{myBundle.ViewProfilTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewProfilLabel_libelle}"/>
+                        <h:outputText value="#{profilController.selected.libelle}" title="#{myBundle.ViewProfilTitle_libelle}"/>
+
+                        <h:outputText value="#{myBundle.ViewProfilLabel_description}"/>
+                        <h:outputText value="#{profilController.selected.description}" title="#{myBundle.ViewProfilTitle_description}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="ProfilViewDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

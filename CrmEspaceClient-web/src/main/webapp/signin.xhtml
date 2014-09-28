@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/layout/template.xhtml">
+
+
+            <ui:define name="content">
+                <center>
+                    <p:panel header="Authentification" style="margin-right: 60px">
+                        <p:messages id="msgs" showDetail="true" />
+                        <h:panelGrid style="margin-top: 20px" columns="2">
+                             <p:outputLabel style="font-weight: bold;font-size: 16px" value="Login" />
+                             <p:inputText value="#{loginManager.login}"
+                                          style="width: 250px;height: 25px"
+                                          placeholder="Tapez votre Login" required="true" />
+                                        
+                                        <p:outputLabel style="font-weight: bold;font-size: 16px" value="Mot de passe" />
+                                        <p:password value="#{loginManager.password}"
+                                                      style="width: 250px;height: 25px"
+                                          placeholder="Tapez votre Mot de passe"
+                                                    required="true" />
+                                        </h:panelGrid>
+                                        <p:separator />
+                                        <h:panelGrid columns="2">
+                                            <p:commandButton update="msgs" style="font-size: large" actionListener="#{loginManager.loginAction(event)}" value="Valider" icon="ui-icon-check" />
+                                             <p:commandButton  style="font-size: large" value="Annuler" icon="ui-icon-close" />
+                                            </h:panelGrid>
+                        </p:panel>
+                </center>
+                
+            </ui:define>
+ <ui:define name="left">
+               
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

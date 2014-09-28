@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MarqueViewDlg" widgetVar="MarqueViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Détail marque" closeOnEscape="true">
+
+            <h:form id="MarqueViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{marqueController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewMarqueLabel_idmarque}"/>
+                        <h:outputText value="#{marqueController.selected.idmarque}" title="#{myBundle.ViewMarqueTitle_idmarque}"/>
+
+                        <h:outputText value="#{myBundle.ViewMarqueLabel_libelle}"/>
+                        <h:outputText value="#{marqueController.selected.libelle}" title="#{myBundle.ViewMarqueTitle_libelle}"/>
+
+                        <h:outputText value="#{myBundle.ViewMarqueLabel_description}"/>
+                        <h:outputText value="#{marqueController.selected.description}" title="#{myBundle.ViewMarqueTitle_description}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('MarqueViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

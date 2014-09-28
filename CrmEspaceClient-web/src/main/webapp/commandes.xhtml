@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/layout/template.xhtml">
+
+
+
+            <ui:define name="content">
+                <p:dataTable id="carsTable" style="margin-right: 5%" paginator="true" rows="10" var="cmd" value="#{commandeManager.mesCommandes}">
+
+
+                    <f:facet name="header">
+                        Mes commandes
+                    </f:facet>
+
+                    <p:column style="width:3%">
+                        <p:rowToggler />
+                    </p:column>
+
+                    <p:column style="width:15%">
+                        <f:facet name="header">
+                            Numéro commande
+                        </f:facet>
+                        <h:outputText value="#000#{cmd.id}" />
+                    </p:column>
+
+                    <p:column style="width:15%">
+                        <f:facet name="header">
+                            Date 
+                        </f:facet>
+                        <h:outputText value="#{cmd.dateCmd}" >
+                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column style="width:8%">
+                        <f:facet name="header">
+                            Nombre d'articles 
+                        </f:facet>
+                        <h:outputText value="#{cmd.ligneCommandeCollection.size()}" />
+                    </p:column>
+
+                    <p:column style="width:20%">
+                        <f:facet name="header">
+                            Etat de la commande 
+                        </f:facet>
+                        <h:outputText value="#{cmd.etat}" />
+                    </p:column>
+
+
+                    <p:column style="width:20%">
+                        <f:facet name="header">
+                            Service après vente 
+                        </f:facet>
+                        <p:commandLink style="color: blue" rendered="#{cmd.etat.startsWith('Con', 0)}" action="reclamation?faces-redirect=true" value="Réclamation/Renseignement">
+
+                            <f:setPropertyActionListener value="#{cmd}"   
+                                                         target="#{reclamationManager.commande}" />  
+
+                        </p:commandLink>
+                    </p:column>
+
+                    <p:rowExpansion  styleClass="myrow">
+                        <p:panelGrid columns="2">
+                            <p:dataGrid value="#{cmd.ligneCommandeCollection}" var="lc"
+                                        columns="2" style="border: 0"
+                                        paginator="true" rows="1"
+                                        >
+                                <p:panel header="ref : 000#{lc.produit.idproduit}" style="background:#ffffff ;width: 180px;height: 260px">  
+                                    <h:panelGrid columns="1" style="width:100%"> 
+
+
+                                        <p:graphicImage width="90px" height="110px" value="/resources/images/produit/#{lc.produit.image}.jpeg"/>
+
+
+
+                                        <span class="badge badge-important pull-right"> prix unitaire : #{lc.produit.pu} € </span>
+
+                                        <h:outputLabel value="Quantité : #{lc.qte}" />
+                                    </h:panelGrid>
+
+
+
+                                </p:panel>  
+                            </p:dataGrid>
+
+                            <p:dataTable value="#{cmd.reclamationCollection}" var="recl"
+                                         style="border: 0"
+                                         paginator="true" rows="5"
+                                         scrollable="true" scrollHeight="200"
+                                         >
+                                <p:column style="width:6%">
+                                    <p:rowToggler  />
+                                </p:column>
+                                <p:column headerText="Numero reclamation">
+                                    <h:outputText value="#000#{recl.id}" />
+                                </p:column>
+                                
+                                 <p:column headerText="Date reclamation">
+                                     <h:outputText id="myDrECL" value="#{recl.dateRecl}" >
+                                         <f:convertDateTime for="myDrECL" type="both" dateStyle="long" locale="fr" />
+                                    </h:outputText>
+                                </p:column>
+                                
+                                 <p:column headerText="Date de réponse">
+                                     <h:outputText id="myD" value="#{recl.dateRep}" >
+                                         <f:convertDateTime for="myD" type="both" dateStyle="long" locale="fr" />
+
+                                    </h:outputText>
+                                     
+                                     <h:outputText value="En cours de traitement" rendered="#{empty recl.dateRep}" />
+                                </p:column>
+
+                                <p:rowExpansion   styleClass="myrow">
+                                    <p:accordionPanel multiple="true" activeIndex="-1">
+                                        <p:tab title="Sujet" >
+                                            <h:outputText escape="false" value="#{recl.sujet}" />
+                                        </p:tab>
+                                        <p:tab rendered="#{not empty recl.reponse}"  title="Réponse" >
+                                            <h:outputText escape="false" value="#{recl.reponse}" />
+                                        </p:tab>
+                                    </p:accordionPanel>
+                                </p:rowExpansion>
+                            </p:dataTable>
+                        </p:panelGrid>
+                    </p:rowExpansion>
+                </p:dataTable>
+            </ui:define>
+            <ui:define name="left">
+
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Statistiques"/>
+    </ui:define>
+<ui:define name="menu">
+            <ui:include src="/WEB-INF/layout/appmenu.xhtml"/>
+        </ui:define>
+    <ui:define name="body">
+        <p:panel header="Statistiques ">
+            
+        </p:panel>
+
+    </ui:define>
+    <ui:define name="gauche">
+        <p:menu style="width: 100%">  
+        <p:submenu label="Liste des clients">  
+      
+            <p:menuitem value="Gérer les clients" outcome="/faces/client/index"  />  
+            <p:separator />
+            <p:menuitem value="Statistiques" outcome="/faces/client/stat" />  
+
+        </p:submenu>  </p:menu>
+    
+    </ui:define>
+
+</ui:composition>

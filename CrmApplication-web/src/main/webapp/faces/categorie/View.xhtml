@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CategorieViewDlg" widgetVar="CategorieViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Détail Catégorie" closeOnEscape="true">
+
+            <h:form id="CategorieViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{categorieController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewCategorieLabel_idcategorie}"/>
+                        <h:outputText value="#{categorieController.selected.idcategorie}" title="#{myBundle.ViewCategorieTitle_idcategorie}"/>
+
+                        <h:outputText value="#{myBundle.ViewCategorieLabel_libelle}"/>
+                        <h:outputText value="#{categorieController.selected.libelle}" title="#{myBundle.ViewCategorieTitle_libelle}"/>
+
+                        <h:outputText value="#{myBundle.ViewCategorieLabel_description}"/>
+                        <h:outputText value="#{categorieController.selected.description}" title="#{myBundle.ViewCategorieTitle_description}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('CategorieViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

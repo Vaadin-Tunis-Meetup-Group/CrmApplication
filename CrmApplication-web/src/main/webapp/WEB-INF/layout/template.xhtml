@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title><ui:insert name="title">Default Title</ui:insert></title>
+        <h:outputStylesheet library="css" name="default.css"/>
+    </h:head>
+
+    <h:body>
+
+        <p:growl id="growl" showDetail="true" life="5000"/>
+
+
+        <pe:layout id="fullPage"  
+                   widgetVar="fpLayoutWidget">  
+
+            <pe:layoutPane position="north"  closable="false"  resizable="false" >  
+                <ui:insert name="menu" />
+                <h:form>
+                    <h:panelGrid style="width: 100%;margin-left: 50px" columns="3">
+                        <h:graphicImage  height="80" width="240" value="/resources/images/logoo.png" />
+                        <h:panelGrid style="margin-left: 120px" columns="3">
+                            <p:selectOneMenu style="width: 160px">
+
+                                <f:selectItem itemLabel="Toutes les catégories" />
+                            </p:selectOneMenu>
+                            <p:inputText style="width: 250px" placeholder="Recherche rapide" />
+                            <p:commandButton icon="ui-icon-search" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <h:column>
+                                <h:panelGrid  columns="3">  
+                                    <p:commandLink value="Messages" id="msgBtn">
+
+                                    </p:commandLink>
+                                    <h:outputText style="font-weight: bold"  value=" #{messageController.nbrMsg}" id="nbrMsg" />
+                                    <p:commandLink styleClass="ui-icon ui-icon-mail-closed">
+
+                                    </p:commandLink>
+
+                                    <p:overlayPanel  for="msgBtn" hideEffect="fade" dynamic="true" style="width:600px">  
+                                        <p:outputPanel id="msgPanel">
+                                            <h:form>
+                                                <p:dataTable value="#{messageController.allNewMsg}" id="msgList" var="msg"
+                                                             rows="5" paginator="true"
+                                                             >
+                                                    <p:column headerText="réçu le" >
+                                                        <h:outputText value="#{msg.dateEnv}" >
+                                                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                                                        </h:outputText>
+                                                    </p:column>
+                                                    <p:column headerText="Sujet" >
+                                                        <h:outputText value="#{msg.sujet}" />
+                                                    </p:column>
+                                                    
+                                                     <p:column headerText="Détail" >
+                                                         <p:commandButton icon="ui-icon-search" process="@form" action="#{messageController.updateNbrMsg(msg)}"/>
+                                                    </p:column>
+                                                    <f:facet name="footer">
+                                                        Nombre totale des Messages : #{messageController.allMsg.size()}
+                                                    </f:facet>
+                                                </p:dataTable>
+
+                                                <p:button value="Voir tous les messages" outcome="/faces/message/index" />
+                                            </h:form>
+                                        </p:outputPanel>
+                                    </p:overlayPanel>
+
+                                </h:panelGrid>
+                            </h:column>
+                            <h:column>
+                                <h:panelGrid columns="3"> 
+                                    <p:commandLink value="Notifications"  id="notifBtn">
+
+                                    </p:commandLink>
+                                    <h:outputText style="font-weight: bold" value=" #{messageController.nbrNotif}" id="nbrNotif" />
+                                    <p:commandLink styleClass="ui-icon ui-icon-info">
+
+                                    </p:commandLink>
+                                    <p:overlayPanel  for="notifBtn" hideEffect="fade" dynamic="true" style="width:600px">  
+                                        <p:outputPanel id="notifPanel">
+                                            <p:dataTable value="#{messageController.allNewNotif}" id="myMsgList" var="c"
+                                                         rows="5" paginator="true"
+                                                         >
+                                                <p:column headerText="réçu le" >
+                                                    <h:outputText value="#{c.dateNotif}" >
+                                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Sujet" >
+                                                    <h:outputText value="#{c.sujet}" />
+                                                </p:column>
+                                                <p:column headerText="Détail" >
+                                                    <p:commandButton icon="ui-icon-search"  action="#{messageController.updateNbrNotif(c,'/faces/commande/list')}" rendered="#{c.sujet.startsWith('Nouvelle', 0)}" />
+                                                    <p:commandButton icon="ui-icon-search" action="#{messageController.updateNbrNotif(c,'/faces/client/index')}" rendered="#{c.sujet.startsWith('Nouveau', 0)}" />
+                                                    <p:commandButton icon="ui-icon-search" action="#{messageController.updateNbrNotif(c,'/faces/commande/list')}" rendered="#{c.sujet.startsWith('Demande', 0)}" />
+                                                    <p:commandButton icon="ui-icon-search" action="#{messageController.updateNbrNotif(c,'/faces/reclamation/list')}" rendered="#{c.sujet.startsWith('R', 0)}" />
+
+                                                </p:column>
+                                            </p:dataTable>
+
+                                            <h:commandLink value="Voir tous les Notifications ( #{messageController.allNotif.size()} )" action="/faces/notification/index?faces-redirect=true" />
+                                        </p:outputPanel>
+                                    </p:overlayPanel>
+
+                                </h:panelGrid>
+                            </h:column>
+
+                        </h:panelGrid>
+
+
+                        <p:poll interval="3" listener="#{messageController.updateNotif}" update=":growl,notifPanel,msgPanel,nbrMsg,nbrNotif" />
+
+
+                    </h:panelGrid>
+                </h:form>
+            </pe:layoutPane>  
+            <pe:layoutPane styleClassContent="centerLayout" position="center">  
+                <ui:insert name="body"></ui:insert>
+            </pe:layoutPane>  
+            <pe:layoutPane   minSize="260" maxSize="300" position="west"> 
+                <h:form>
+                      <p:calendar id="inline"  mode="inline" />
+             <center>
+             <h:panelGrid columns="1">
+                 <h:graphicImage value="/resources/images/profile-pic.jpg" style="margin-left: 25%" width="100" height="100" />
+                 <p:panelGrid columns="2">
+                     <f:facet name="header">
+                         Informations personnelle
+                     </f:facet>
+                     <p:outputLabel style="font-weight: bold" value="Utilisateur" />
+                     <p:outputLabel value="#{loginController.currentUser}" />
+                     
+                   
+                      
+                       <p:outputLabel style="font-weight: bold" value="Service" />
+                       <p:outputLabel value="#{loginController.currentUser.profil}" />
+                       
+                     
+                         <p:outputLabel style="font-weight: bold" value="dérniere Connexion" />
+                         <p:outputLabel value="#{loginController.currentUser.lastConnection}" >
+                             <f:convertDateTime pattern="dd-MM-yyyy hh:mm" />
+                         </p:outputLabel>
+                           <f:facet name="footer">
+                               <center>
+                                   <p:commandButton value="Modifier votre profile" icon="ui-icon-pencil" />
+                               </center>
+                     </f:facet>
+                 </p:panelGrid>
+             </h:panelGrid>
+                 <br/>
+                 <h:panelGrid columns="2">
+                     <p:outputLabel style="font-weight: bold" value="Changer Theme" />
+             <p:themeSwitcher value="#{themeSwitcher.selectedTheme}" id="defaultSwitcher">
+                        
+                        <f:selectItems   value="#{themeSwitcher.themes}" />  
+                        <p:ajax listener="#{themeSwitcher.saveTheme(event)}" />
+                    </p:themeSwitcher>
+                 </h:panelGrid>
+                 </center>
+                </h:form>
+            </pe:layoutPane>  
+
+            <pe:layoutPane id="chatLayout" minSize="240" maxSize="300" position="east"> 
+             
+                    <ui:insert name="droite">
+   <h:form>
+                        <p:messages id="message"  closable="true" />
+                        <p:dataList id="dataChat" value="#{loginController.connectedUser}" var="users" type="unordered" itemType="none" paginator="true" rows="10" styleClass="paginated">
+                            <f:facet name="header">
+                                Utilisateurs connectés
+                            </f:facet>
+                            <h:panelGrid cellpadding="10" columns="3">
+                                <h:graphicImage value="/resources/images/online.png" />
+                                <h:outputLabel rendered="#{loginController.currentUser.id eq users.id}" value="#{users} (vous)" />
+                                <h:outputLabel rendered="#{loginController.currentUser.id ne users.id}" value="#{users}" />
+                                <h:outputLabel rendered="#{users.profil.id eq 1}" value="Admin" />
+                                <h:outputLabel rendered="#{users.profil.id eq 2}" value="SAV" />
+                                <h:outputLabel rendered="#{users.profil.id eq 3}" value="Commercial" />
+
+                            </h:panelGrid>
+                        </p:dataList>
+                       
+                        <p:scrollPanel style="width:220px;height:240px">
+                            <p:outputLabel escape="false" id="chatContent" value="#{chatController.messages.toString()}" />
+                        </p:scrollPanel>
+                        <br/>
+                        <p:inputTextarea value="#{loginController.msg}" rows="4" cols="30" placeholder="Tapez votre message ici" />
+                        <br/>
+                        <p:commandButton process="@form" actionListener="#{loginController.sendMessage}" update="chatContent,message" value="Envoyer" />
+                        
+                        <p:poll update="message,dataChat,chatContent" interval="3" listener="#{loginController.updateChat()}" />
+   </h:form>
+                    </ui:insert>
+              
+            </pe:layoutPane>  
+
+
+
+        </pe:layout>  
+        <!--
+                <p:socket onMessage="handleMessage" channel="/notify" />
+         
+        <script type="text/javascript">
+                function handleMessage(facesmessage) {
+                    facesmessage.severity = 'info';
+         
+                    PF('growl').show([facesmessage]);
+                }
+        </script>
+        
+        -->
+    </h:body>
+
+</html>

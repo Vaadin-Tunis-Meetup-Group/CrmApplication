@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MarqueEditDlg" widgetVar="MarqueEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Modifier Marque" closeOnEscape="true">
+
+            <h:form id="MarqueEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{marqueController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditMarqueLabel_idmarque}" for="idmarque" />
+                        <h:outputText id="idmarque" value="#{marqueController.selected.idmarque}" />
+
+                        <p:outputLabel value="#{myBundle.EditMarqueLabel_libelle}" for="libelle" />
+                        <p:inputText id="libelle" value="#{marqueController.selected.libelle}" title="#{myBundle.EditMarqueTitle_libelle}" required="true" requiredMessage="#{myBundle.EditMarqueRequiredMessage_libelle}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditMarqueLabel_description}" for="description" />
+                        <p:inputTextarea rows="4" cols="30" id="description" value="#{marqueController.selected.description}" title="#{myBundle.EditMarqueTitle_description}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{marqueController.save}" value="#{myBundle.Save}" update="display,:produitTab:MarqueListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('MarqueEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+<script type="text/javascript">
+function handleSubmit(xhr, status, args) {
+   
+    if(args.validationFailed) {
+        PF('MarqueEditDialog').jq.effect('shake', { times:3 }, 100);
+    } else {
+        PF('MarqueEditDialog').hide();
+    }
+}
+        </script>
+    </ui:composition>
+
+</html>

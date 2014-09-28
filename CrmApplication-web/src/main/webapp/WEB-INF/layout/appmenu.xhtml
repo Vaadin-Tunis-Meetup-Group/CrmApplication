@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:outputPanel rendered="#{loginController.currentUser.profil.id eq 1 or loginController.currentUser.profil.id eq 3}">
+        <h:form id="menuForm">
+            <p:menubar id="menuBarApp" >
+                <p:menuitem style="margin-left: 8px;" value="Index" outcome="/index" icon="ui-icon-home"/>
+                <p:menuitem style="margin-left: 8px;" value="Agenda" outcome="/faces/agenda/index" icon="ui-icon-calendar"/>
+                <p:menuitem style="margin-left: 8px;" value="Gérer les produits" outcome="/faces/produit/index"/>
+                <p:menuitem style="margin-left: 8px;" rendered="#{loginController.currentUser.profil.id eq 1}" value="Gérer les agents" outcome="/faces/utilisateur/index" icon="ui-icon-person"/>
+
+
+                <p:menuitem style="margin-left: 8px;" value="Gérer les clients" outcome="/faces/client/index"/>
+
+                <p:menuitem style="margin-left: 8px;" value="Gérer les documents" icon="ui-icon-folder-open" outcome="/faces/commande/list"/>
+                <p:menuitem style="margin-left: 8px;" rendered="#{loginController.currentUser.profil.id eq 1}" value="Gérer les réclamations" outcome="/faces/reclamation/list" icon="ui-icon-gear"/>
+
+                <p:menuitem style="margin-left: 8px;" value="Messagerie" icon="ui-icon-mail-open" outcome="/faces/message/index"/>
+                <p:menuitem style="margin-left: 8px;" value="Statistiques" outcome="/faces/stat/statistique"/>
+
+
+
+                <p:submenu label="#{loginController.currentUser}" style="float: right" icon="ui-icon-person" >  
+                    <p:menuitem value=" Mon Profil" icon="ui-icon-person" action="home?faces-redirect=true" />  
+                    <p:separator />  
+                    <p:menuitem value=" Déconnecter" icon="ui-icon-power" action="#{loginController.logOut()}"/>  
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        </p:outputPanel>
+        <p:outputPanel rendered="#{loginController.currentUser.profil.id eq 2}">
+             <h:form id="menuFormSav">
+            <p:menubar >
+                <p:menuitem style="margin-left: 8px;" value="Service après vente" outcome="/index-sav" icon="ui-icon-home"/>
+                               <p:menuitem style="margin-left: 8px;" value="Agenda" outcome="/faces/agenda/index" icon="ui-icon-calendar"/>
+
+                <p:menuitem style="margin-left: 8px;" value="Gérer les réclamations" outcome="/faces/reclamation/list" icon="ui-icon-gear"/>
+            
+             <p:submenu label="#{loginController.currentUser}" style="float: right" icon="ui-icon-person" >  
+                            <p:menuitem value=" Mon Profil" icon="ui-icon-person" action="home?faces-redirect=true" />  
+           <p:separator />  
+           <p:menuitem value=" Déconnecter" icon="ui-icon-power" action="#{loginController.logOut()}"/>  
+                   </p:submenu>
+            </p:menubar>
+                
+        </h:form>
+        </p:outputPanel>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClientViewDlg" widgetVar="ClientViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.ViewClientTitle}" closeOnEscape="true">
+
+            <h:form id="ClientViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{clientController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_idclient}"/>
+                        <h:outputText value="#{clientController.selected.idclient}" title="#{myBundle.ViewClientTitle_idclient}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_nom}"/>
+                        <h:outputText value="#{clientController.selected.nom}" title="#{myBundle.ViewClientTitle_nom}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_prenom}"/>
+                        <h:outputText value="#{clientController.selected.prenom}" title="#{myBundle.ViewClientTitle_prenom}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_cin}"/>
+                        <h:outputText value="#{clientController.selected.cin}" title="#{myBundle.ViewClientTitle_cin}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_adresse}"/>
+                        <h:outputText value="#{clientController.selected.adresse}" title="#{myBundle.ViewClientTitle_adresse}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_email}"/>
+                        <h:outputText value="#{clientController.selected.email}" title="#{myBundle.ViewClientTitle_email}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_password}"/>
+                        <h:outputText value="#{clientController.selected.password}" title="#{myBundle.ViewClientTitle_password}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_login}"/>
+                        <h:outputText value="#{clientController.selected.login}" title="#{myBundle.ViewClientTitle_login}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_ville}"/>
+                        <h:outputText value="#{clientController.selected.ville}" title="#{myBundle.ViewClientTitle_ville}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_gouvernourat}"/>
+                        <h:outputText value="#{clientController.selected.gouvernourat}" title="#{myBundle.ViewClientTitle_gouvernourat}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_telephone}"/>
+                        <h:outputText value="#{clientController.selected.telephone}" title="#{myBundle.ViewClientTitle_telephone}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_mobile}"/>
+                        <h:outputText value="#{clientController.selected.mobile}" title="#{myBundle.ViewClientTitle_mobile}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_company}"/>
+                        <h:outputText value="#{clientController.selected.company}" title="#{myBundle.ViewClientTitle_company}"/>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_dateNaissance}"/>
+                        <h:outputText value="#{clientController.selected.dateNaissance}" title="#{myBundle.ViewClientTitle_dateNaissance}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_dateAjout}"/>
+                        <h:outputText value="#{clientController.selected.dateAjout}" title="#{myBundle.ViewClientTitle_dateAjout}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewClientLabel_description}"/>
+                        <h:outputText value="#{clientController.selected.description}" title="#{myBundle.ViewClientTitle_description}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ClientViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

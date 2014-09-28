@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/badge.css" />
+        <title><ui:insert name="title">title</ui:insert></title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top">
+                <h:form id="topForm">
+                    <p:toolbar style="background: none !important;margin-left: 25%;margin-right: 20%"  rendered="#{loginManager.currentClient != null}" >
+                        <f:facet name="left">
+                            <p:button style="font-size: 12px"  value="#{loginManager.currentClient.toString()}" icon="ui-icon-person" />
+
+                            <p:button style="font-size: 12px" outcome="commandes"  value="Mes Commandes" icon="ui-icon-folder-open" />
+                            <p:button style="font-size: 12px"  value="Réclamation" icon="ui-icon-folder-open" />
+                            <p:button style="font-size: 12px" outcome="messages"  value="Mes messages" icon="ui-icon-mail-closed" />
+
+                            <p:commandButton style="font-size: 12px" value="Déconnexion" icon="ui-icon-power" action="#{loginManager.logOut()}" />
+
+                        </f:facet>
+
+                      
+                      
+
+                    </p:toolbar>
+                    <p:commandButton style="margin-left: 80%" rendered="#{loginManager.currentClient == null}" value="Espace Client" onclick="PF('login').show()"/>
+                    <p:dialog widgetVar="login" width="400" height="200"
+                              dynamic="true" appendTo="@(body)" closable="true"
+                              showEffect="bounce" header="Authentification"
+                              >
+                        <h:form>
+                            <p:growl id="growl"  />
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="Login" for="authlog" />
+                                <p:inputText id="authlog" value="#{loginManager.login}" requiredMessage="Vous devez indiquer votre login" required="true" />
+
+                                <p:outputLabel for="authpwd" value="Mot de passe" />
+                                <p:password id="authpwd" requiredMessage="Vous devez indiquer votre mot de passe" value="#{loginManager.password}" required="true" />
+                            </h:panelGrid>
+                            <p:separator />
+                            <h:panelGrid columns="2">
+                                <p:commandButton update="growl" process="@form" actionListener="#{loginManager.loginAction(event)}" value="Valider" icon="ui-icon-check" />
+                                <p:commandButton value="Annuler" icon="ui-icon-close" />
+                            </h:panelGrid>
+                            <p:commandLink process="@this" style="margin-top: 20px;margin-left: 50px;color: blue" value="Nouveau Client ! Créer un nouveau compte" action="signup?faces-redirect=true" />
+                        </h:form>
+                    </p:dialog>
+                    <h:panelGrid columns="4" cellpadding="10" style="margin-left: 100px">
+
+                        <h:graphicImage value="/resources/images/Store.png" width="350" />
+                        <h:column>
+                            <h:panelGrid columns="1">
+                            <h:panelGrid columns="2">
+                                <p:inputText placeholder="Chercher des Téléphones par leurs marque"
+                                             style="width: 350px;height: 25px"/>
+                                <p:commandButton icon="ui-icon-search" style="font-size: large" />
+
+                            </h:panelGrid>
+                                <p:menubar style="margin-left: 15%;font-size: 16px">
+                                    <p:menuitem value="Nos offres" outcome="phones" />
+                                    <p:menuitem value="Promotions" outcome="phones" />
+                                    <p:menuitem value="Contact" outcome="contact" />
+                        </p:menubar>
+                            </h:panelGrid>
+                        </h:column>
+                      
+                        <p:panel id="panierPanel" style="width: 260px">
+                            <h:panelGrid columns="2">
+                                <h:graphicImage width="60" height="60" style="margin-right: 10px"   value="/resources/images/panier.jpg"/>
+                                <p:outputPanel id="mypanel">
+                                    <center>
+                                        <a href="monPanier.xhtml">#{cartManager.nbrArticle} articles dans votre panier</a>
+                                      <br/>
+                                        <span style="margin-top: 3px" class="badge badge-warning">#{cartManager.totalPrix} DT</span>
+                                    </center>
+                                </p:outputPanel>
+
+
+                            </h:panelGrid>
+                        </p:panel>
+
+                    </h:panelGrid>
+                </h:form>
+            </ui:insert>
+        </div>
+        <div>
+            <div id="left">
+                <ui:insert name="left">
+               
+                </ui:insert>
+            </div>
+            <div id="content" class="left_content">
+                <h:form id="contentForm">
+                    <p:growl id="mygrowl" />
+                    <ui:insert name="content">
+
+
+
+                    </ui:insert>
+                </h:form>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+                <center>
+                  
+                    <h:panelGrid  columns="4" cellpadding="50">
+                    <h:column class="colfooter">
+                     
+                <h3>Votre Compte</h3>
+				<a href="login.html">Compte</a><br/>
+				<a href="login.html">Information personnelle</a> <br/>
+                                <a href="login.html">Commandes</a> <br/>
+				<a href="login.html">Messages</a> <br/> 
+				<a href="login.html">Historiques</a><br/>
+                                
+                    </h:column>
+			 <h:column>
+				<h3>Information</h3>
+				<a href="contact.html">CONTACT</a>  <br/>
+				<a href="register.html">Inscription</a>  <br/>
+				<a href="legal_notice.html">Renseingement</a>  <br/>
+				<a href="tac.html">Conditions d'utilisation</a> <br/>
+				<a href="faq.html">FAQ</a> <br/>
+			  </h:column>
+			 <h:column>
+				<h3>Nos Offres</h3>
+				<a href="#">Nof offres</a> <br/>
+				<a href="#">TOP Vente</a>  <br/>
+				<a href="special_offer.html">Offres spécialies</a>  <br/>
+				<a href="#">Réclamation</a> <br/>
+				<a href="#">Maintenance</a> <br/>
+                         </h:column>
+                    <h:column class="socialMedia">
+				<h3>Réseaux Social </h3>
+				<a href="#"><img width="60" height="60" src="resources/images/facebook.png" title="facebook" alt="facebook"/></a>
+				<a href="#"><img width="60" height="60" src="resources/images/twitter.png" title="twitter" alt="twitter"/></a>
+				<a href="#"><img width="60" height="60" src="resources/images/youtube.png" title="youtube" alt="youtube"/></a>
+                         </h:column>
+                </h:panelGrid>
+                    <p style="font-size: 16px">MobileStore © 2014</p>
+                </center>
+            </ui:insert>
+        </div>
+        <p:sticky target=":topForm:panierPanel" />
+    </h:body>
+
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:tabView id="produitTab">
+        
+        <p:tab title="Gérer les produits">
+    <h:form id="ProduitListForm">
+ 
+                <p:dataTable id="datalist" value="#{produitController.items}" var="item"
+                         selectionMode="single" selection="#{produitController.selected}"
+                         rowKey="#{item.idproduit}"
+                         paginator="true"
+                          scrollable="true" scrollHeight="270"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+                <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+<f:facet name="header">
+    <p:outputPanel style="float: right">
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="datalist" fileName="Telephones" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="datalist" fileName="Telephones"/>
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/csv.png" width="24"/>
+                <p:dataExporter type="csv" target="datalist" fileName="Telephones" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/xml.png" width="24"/>
+                <p:dataExporter type="xml" target="datalist" fileName="Telephones" />
+            </h:commandLink>
+    </p:outputPanel>
+        </f:facet>
+                <p:column sortBy="#{item.idproduit}" filterBy="#{item.idproduit}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProduitTitle_idproduit}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idproduit}"/>
+                </p:column>
+                <p:column  headerText="Libellé" sortBy="#{item.libelle}" filterBy="#{item.libelle}">
+                   
+                    <h:outputText value="#{item.libelle}"/>
+                </p:column>
+               
+                <p:column sortBy="#{item.pu}" filterBy="#{item.pu}">
+                    <f:facet name="header">
+                        <h:outputText value="Prix unitaire"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pu}"/>
+                </p:column>
+               
+                <p:column sortBy="#{item.quantite}" filterBy="#{item.quantite}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProduitTitle_quantite}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.quantite}"/>
+                </p:column>
+                
+                <p:column sortBy="#{item.marque.libelle}" filterBy="#{item.marque.libelle}">
+                    <f:facet name="header">
+                        <h:outputText value="Marque"/>
+                    </f:facet>
+                    <h:outputText value="#{item.marque}"/>
+                </p:column>
+                <p:column sortBy="#{item.categorie.libelle}" filterBy="#{item.categorie.libelle}">
+                    <f:facet name="header">
+                        <h:outputText value="Catégorie"/>
+                    </f:facet>
+                    <h:outputText value="#{item.categorie.libelle}"/>
+                </p:column>
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="Ajouter" actionListener="#{produitController.prepareCreate}" update=":ProduitCreateForm" oncomplete="PF('ProduitCreateDialog').show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="Voir Détail" update=":ProduitViewForm" oncomplete="PF('ProduitViewDialog').show()" disabled="#{empty produitController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Modifier" update=":ProduitEditForm" oncomplete="PF('ProduitEditDialog').show()" disabled="#{empty produitController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Supprimer" actionListener="#{produitController.delete}" update=":growl,datalist" disabled="#{empty produitController.selected}"/>
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+    </h:form>
+        </p:tab>
+        <p:tab title="Gérer les marques">
+            <ui:include src="/faces/marque/List.xhtml" />
+        </p:tab>    
+        <p:tab title="Gérer les Catégories">
+              <ui:include src="/faces/categorie/List.xhtml" />
+        </p:tab>
+    </p:tabView>
+   
+
+</ui:composition>

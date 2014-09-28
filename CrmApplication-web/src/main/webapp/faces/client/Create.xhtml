@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClientCreateDlg" widgetVar="ClientCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateClientTitle}" closeOnEscape="true">
+
+            <h:form id="ClientCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{clientController.selected.nom}" title="#{myBundle.CreateClientTitle_nom}" required="true" requiredMessage="#{myBundle.CreateClientRequiredMessage_nom}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_prenom}" for="prenom" />
+                        <p:inputText id="prenom" value="#{clientController.selected.prenom}" title="#{myBundle.CreateClientTitle_prenom}" required="true" requiredMessage="#{myBundle.CreateClientRequiredMessage_prenom}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_cin}" for="cin" />
+                        <p:inputText id="cin" value="#{clientController.selected.cin}" title="#{myBundle.CreateClientTitle_cin}" required="true" requiredMessage="#{myBundle.CreateClientRequiredMessage_cin}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_adresse}" for="adresse" />
+                        <p:inputTextarea rows="4" cols="30" id="adresse" value="#{clientController.selected.adresse}" title="#{myBundle.CreateClientTitle_adresse}" />
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{clientController.selected.email}" title="#{myBundle.CreateClientTitle_email}" required="true" requiredMessage="#{myBundle.CreateClientRequiredMessage_email}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_password}" for="password" />
+                        <p:inputText id="password" value="#{clientController.selected.password}" title="#{myBundle.CreateClientTitle_password}" required="true" requiredMessage="#{myBundle.CreateClientRequiredMessage_password}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_login}" for="login" />
+                        <p:inputText id="login" value="#{clientController.selected.login}" title="#{myBundle.CreateClientTitle_login}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_ville}" for="ville" />
+                        <p:inputText id="ville" value="#{clientController.selected.ville}" title="#{myBundle.CreateClientTitle_ville}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_gouvernourat}" for="gouvernourat" />
+                        <p:inputText id="gouvernourat" value="#{clientController.selected.gouvernourat}" title="#{myBundle.CreateClientTitle_gouvernourat}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_telephone}" for="telephone" />
+                        <p:inputText id="telephone" value="#{clientController.selected.telephone}" title="#{myBundle.CreateClientTitle_telephone}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_mobile}" for="mobile" />
+                        <p:inputText id="mobile" value="#{clientController.selected.mobile}" title="#{myBundle.CreateClientTitle_mobile}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_company}" for="company" />
+                        <p:inputText id="company" value="#{clientController.selected.company}" title="#{myBundle.CreateClientTitle_company}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_dateNaissance}" for="dateNaissance" />
+                        <p:calendar id="dateNaissance" pattern="MM/dd/yyyy" value="#{clientController.selected.dateNaissance}" title="#{myBundle.EditClientTitle_dateNaissance}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_dateNaissance}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_dateAjout}" for="dateAjout" />
+                        <p:calendar id="dateAjout" pattern="MM/dd/yyyy HH:mm:ss" value="#{clientController.selected.dateAjout}" title="#{myBundle.EditClientTitle_dateAjout}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_dateAjout}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClientLabel_description}" for="description" />
+                        <p:inputTextarea rows="4" cols="30" id="description" value="#{clientController.selected.description}" title="#{myBundle.CreateClientTitle_description}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clientController.saveNew}" value="#{myBundle.Save}" update="display,:ClientListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ClientCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ClientCreateDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://java.sun.com/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/layout/template.xhtml">
+
+
+
+            <ui:define name="content">
+
+                <p:panel style="margin-right: 10%;margin-left: 5%" header="Client - Nouveau Compte">
+                    <center>
+                    <p:messages id="msgs" />
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <p:outputLabel style="font-size: medium;font-weight: bold" value="Nom:" for="nom" />
+                        <p:inputText id="nom" value="#{clientManager.client.nom}" title="Nom" required="true" requiredMessage="The Nom field is required."/>
+                        <p:outputLabel style="font-size: medium;font-weight: bold"  value="Prenom:" for="prenom" />
+                        <p:inputText id="prenom" value="#{clientManager.client.prenom}" title="Prenom" required="true" requiredMessage="The Prenom field is required."/>
+                        <p:outputLabel style="font-size: medium;font-weight: bold"  value="Cin:" for="cin" />
+                        <p:inputText id="cin" value="#{clientManager.client.cin}" converter="javax.faces.Integer"  validatorMessage="Vous devez indiquer un CIN valide ( 8 chiifres )" converterMessage="CIN doit etre un nombre" maxlength="8"  title="Cin" required="true" requiredMessage="The Cin field is required.">
+                            <f:validateLength minimum="8" maximum="8" />
+                        </p:inputText>
+                        <p:outputLabel style="font-size: medium;font-weight: bold"  value="Email:" for="email" />
+                        <p:inputText id="email" pt:type="email" validatorMessage="Vous devez indiquer un email valide" value="#{clientManager.client.email}" title="Email" required="true" requiredMessage="The Email field is required.">
+
+                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" /> 
+
+                        </p:inputText>
+                           <p:outputLabel style="font-size: medium;font-weight: bold"  value="Login:" for="log" />
+                        <p:inputText id="log" required="Vous devez indiquer votre login" value="#{clientManager.client.login}" title="Login" />
+                        <p:outputLabel style="font-size: medium;font-weight: bold"  value="Mot de passe" for="password" />
+                        <p:password id="password"  value="#{clientManager.client.password}" title="Password" required="true" requiredMessage="Vous devez indiquer votre mot de passe."/>
+                   
+                        
+                        <p:outputLabel style="font-size: medium;font-weight: bold"  value="Ville:" />
+                        <p:inputText id="ville" value="#{clientManager.client.ville}" title="Ville" />
+                        <p:outputLabel style="font-size: medium;font-weight: bold" value="Gouvernourat"  />
+                        <p:inputText id="gouvernourat" value="#{clientManager.client.gouvernourat}" title="Gouvernourat" />
+                        <p:outputLabel style="font-size: medium;font-weight: bold" value="Telephone:"  />
+                        <p:inputText id="telephone" value="#{clientManager.client.telephone}" title="Telephone" />
+                        <p:outputLabel value="Mobile:" style="font-size: medium;font-weight: bold" />
+                        <p:inputText id="mobile" value="#{clientManager.client.mobile}" title="Mobile" />
+                        <p:outputLabel style="font-size: medium;font-weight: bold" value="Company:"  />
+                        <p:inputText id="company" value="#{clientManager.client.company}" title="Company" />
+                        <p:outputLabel style="font-size: medium;font-weight: bold" value="DateNaissance:" for="dateNaissance" />
+                        <p:calendar id="dateNaissance" value="#{clientManager.client.dateNaissance}" title="DateNaissance" required="true" requiredMessage="Vous devez indiquer votre date de naissance.">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </p:calendar>
+                        <p:outputLabel style="font-size: medium;font-weight: bold" value="Adresse:"  />
+                        <h:inputTextarea rows="4" cols="40" id="adresse" value="#{clientManager.client.adresse}" title="Adresse" />
+
+                        <h:outputLabel style="font-size: medium;font-weight: bold" value="Commentaire" />
+                        <h:inputTextarea rows="4" cols="40" id="description" value="#{clientManager.client.description}" title="Description" />
+                    </h:panelGrid>
+                    <p:separator />
+                    <h:panelGrid  columns="2">
+                        <p:commandButton value="valider" style="font-size: large" icon="ui-icon-check" update="msgs" action="#{clientManager.doCreate}" />
+                        <p:commandButton type="reset" style="font-size: large" icon="ui-icon-close" value="annuler" />
+                    </h:panelGrid>
+                    </center>
+                </p:panel>
+            </ui:define>
+ <ui:define name="left">
+           
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

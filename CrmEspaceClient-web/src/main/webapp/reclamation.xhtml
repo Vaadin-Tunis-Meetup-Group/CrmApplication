@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/layout/template.xhtml">
+
+           
+            <ui:define name="content">
+                <p:panel header="Service après vente - Réclamation / Renseingement" style="margin-right: 5%">
+                <h:form>
+                
+                    <center>
+                        <p:accordionPanel  activeIndex="0,1" multiple="true">
+        <p:tab title="Détail Commande" >
+                     <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                Commande numéro #{reclamationManager.commande.id}
+                            </f:facet>
+                              
+                            
+                              <h:outputText style="font-weight: bold" value="Date de commande"/>
+                              <h:outputText value="#{reclamationManager.commande.dateCmd}"/>
+                              
+                              <h:outputText style="font-weight: bold" value="Nombre des articles"/>
+                              <h:outputText value="#{reclamationManager.commande.ligneCommandeCollection.size()}"/>
+                              
+                               <h:outputText style="font-weight: bold" value="Date de réponse"/>
+                               <h:outputText value="#{reclamationManager.commande.dateReponse}"/>
+                               
+                                <h:outputText style="font-weight: bold" value="Commentaire service commercial"/>
+                                <h:outputText value="#{reclamationManager.commande.description}"/>
+
+                          </p:panelGrid>
+        </p:tab>
+                             <p:tab  title="Votre réclamation">
+                      
+                                  <p:editor id="editor"  widgetVar="editorWidget" value="#{reclamationManager.reclamation.sujet}" width="800" />
+                             <br/>
+<p:commandButton style="font-size: large" icon="ui-icon-check" action="#{reclamationManager.sendReclamation()}" value="Envoyer votre réclamation" />
+                             </p:tab>
+                         </p:accordionPanel>
+                    </center>
+                </h:form>
+                </p:panel>
+            </ui:define>
+ <ui:define name="left">
+            
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

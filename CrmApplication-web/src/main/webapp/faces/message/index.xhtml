@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="Messagerie"/>
+    </ui:define>
+
+    <ui:define name="menu">
+        <ui:include src="/WEB-INF/layout/appmenu.xhtml"/>
+    </ui:define>
+    
+    <ui:define name="body">
+        <p:tabView id="messageTab">
+            <p:tab title="Messages Réçu">
+            <h:form id="MessageForm">
+            <p:dataTable value="#{messageController.allMsg}" id="messages" var="m"
+                         rowKey="#{m.id}" selectionMode="single" selection="#{messageController.selectedMessage}"
+                              rows="5" paginator="true"
+                                          >
+                
+                <p:ajax event="rowSelect" update="reponseBtn,:messageTab:MessageForm:detailMsg" />
+                       
+                                 <p:column headerText="réçu le" >
+                                     <h:outputText value="#{m.dateEnv}" >
+                                         <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                                     </h:outputText>
+                                 </p:column>
+                 <p:column headerText="Client" >
+                     <h:outputText value="#{m.fromCl}" />
+                                 </p:column>
+                                 <p:column headerText="Sujet" >
+                                     <h:outputText value="#{m.sujet}" />
+                                 </p:column>
+                 <f:facet name="footer">
+                     <p:commandButton id="reponseBtn" icon="ui-icon-close" value="Supprimer" update=":growl,messages" actionListener="#{messageController.deleteMsg}" disabled="#{empty messageController.selectedMessage}" />
+                    </f:facet>
+                             </p:dataTable>
+            
+            <p:outputPanel id="detailMsg">
+                <p:outputLabel value="#{messageController.selectedMessage.contenu}" />
+            </p:outputPanel>
+            </h:form>
+            </p:tab>
+            <p:tab title="Nouveau Message">
+                 <h:form id="NewMessageForm">
+                     <p:messages id="msgGrowl" closable="true" showDetail="true" />
+                <h:panelGrid columns="2">
+
+                    <h:outputLabel value="Sujet : " for="sujet" />
+                    <p:inputText value="#{messageController.message.sujet}" required="true" id="sujet" />
+
+                    <h:outputLabel value="Client : " for="dest" />
+                    <p:selectOneMenu value="#{messageController.message.toClient}" 
+                                     converter="clientConverter"
+                                     
+                                     required="true" id="dest">
+                        <f:selectItem noSelectionOption="true" itemLabel="Sélectionnez Client" />
+                        <f:selectItems value="#{messageController.allClient}" var="cl"
+                                       
+                                       itemLabel="#{cl}"
+                                       itemValue="#{cl}" />
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="Messages : " for="dest" />
+                    <p:inputTextarea cols="50" rows="10"  value="#{messageController.message.contenu}" required="true"  />
+
+
+                </h:panelGrid>
+
+                <p:separator />
+                <h:panelGrid columns="2" style="text-align: center">
+                    <p:commandButton icon="ui-icon-check" actionListener="#{messageController.sendMessage}"
+                                     process="@form"
+                                     value="Envoyer" update="msgGrowl,NewMessageForm" />
+                    <p:commandButton icon="ui-icon-close" type="reset"  value="Annuler" />
+                </h:panelGrid>
+            </h:form>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+   
+</ui:composition>

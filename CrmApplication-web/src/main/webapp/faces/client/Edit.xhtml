@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClientEditDlg" widgetVar="ClientEditDialog" modal="true" resizable="true" appendTo="@(body)" header="#{myBundle.EditClientTitle}" closeOnEscape="true">
+
+            <h:form id="ClientEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{clientController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditClientLabel_idclient}" for="idclient" />
+                        <h:outputText id="idclient" value="#{clientController.selected.idclient}" />
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{clientController.selected.nom}" title="#{myBundle.EditClientTitle_nom}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_nom}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_prenom}" for="prenom" />
+                        <p:inputText id="prenom" value="#{clientController.selected.prenom}" title="#{myBundle.EditClientTitle_prenom}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_prenom}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_cin}" for="cin" />
+                        <p:inputText id="cin" value="#{clientController.selected.cin}" title="#{myBundle.EditClientTitle_cin}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_cin}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_adresse}" for="adresse" />
+                        <p:inputTextarea rows="4" cols="30" id="adresse" value="#{clientController.selected.adresse}" title="#{myBundle.EditClientTitle_adresse}" />
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{clientController.selected.email}" title="#{myBundle.EditClientTitle_email}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_email}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_password}" for="password" />
+                        <p:inputText id="password" value="#{clientController.selected.password}" title="#{myBundle.EditClientTitle_password}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_password}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_login}" for="login" />
+                        <p:inputText id="login" value="#{clientController.selected.login}" title="#{myBundle.EditClientTitle_login}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_ville}" for="ville" />
+                        <p:inputText id="ville" value="#{clientController.selected.ville}" title="#{myBundle.EditClientTitle_ville}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_gouvernourat}" for="gouvernourat" />
+                        <p:inputText id="gouvernourat" value="#{clientController.selected.gouvernourat}" title="#{myBundle.EditClientTitle_gouvernourat}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_telephone}" for="telephone" />
+                        <p:inputText id="telephone" value="#{clientController.selected.telephone}" title="#{myBundle.EditClientTitle_telephone}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_mobile}" for="mobile" />
+                        <p:inputText id="mobile" value="#{clientController.selected.mobile}" title="#{myBundle.EditClientTitle_mobile}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_company}" for="company" />
+                        <p:inputText id="company" value="#{clientController.selected.company}" title="#{myBundle.EditClientTitle_company}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_dateNaissance}" for="dateNaissance" />
+                        <p:calendar id="dateNaissance" pattern="MM/dd/yyyy" value="#{clientController.selected.dateNaissance}" title="#{myBundle.EditClientTitle_dateNaissance}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_dateNaissance}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_dateAjout}" for="dateAjout" />
+                        <p:calendar id="dateAjout" pattern="MM/dd/yyyy HH:mm:ss" value="#{clientController.selected.dateAjout}" title="#{myBundle.EditClientTitle_dateAjout}" required="true" requiredMessage="#{myBundle.EditClientRequiredMessage_dateAjout}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditClientLabel_description}" for="description" />
+                        <p:inputTextarea rows="4" cols="30" id="description" value="#{clientController.selected.description}" title="#{myBundle.EditClientTitle_description}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clientController.save}" value="#{myBundle.Save}" update="display,:ClientListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ClientEditDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="ClientEditDialog.hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

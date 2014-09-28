@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/template.xhtml">
+
+    <ui:define name="title">
+        <h:outputText value="#{myBundle.CategorieTitle}"/>
+    </ui:define>
+<ui:define name="menu">
+            <ui:include src="/WEB-INF/layout/appmenu.xhtml"/>
+        </ui:define>
+    <ui:define name="body">
+
+        <ui:include src="/faces/categorie/List.xhtml"/>
+        <ui:include src="/faces/categorie/View.xhtml"/>
+        <ui:include src="/faces/categorie/Edit.xhtml"/>
+        <ui:include src="/faces/categorie/Create.xhtml"/>
+
+    </ui:define>
+ <ui:define name="gauche">
+        <p:menu style="width: 100%">   
+        <p:submenu label="Gérer les produits">  
+            <p:menuitem value="Gestion des produits" outcome="/faces/produit/index"  />  
+            <p:menuitem value="Marque des produits" outcome="/faces/marque/index" />  
+            <p:menuitem value="Catégorie des produits" outcome="/faces/categorie/index" />  
+
+        </p:submenu>  
+        </p:menu>
+    </ui:define>
+</ui:composition>

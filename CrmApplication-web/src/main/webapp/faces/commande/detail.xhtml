@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/layout/template.xhtml">
+
+            <ui:define name="title">
+                Détail commande
+            </ui:define>
+
+           
+            <ui:define name="menu">
+                 <ui:include src="/WEB-INF/layout/appmenu.xhtml"/>
+            </ui:define>
+
+            <ui:define name="body">
+                <p:fieldset legend="Détail commande">
+                    <center>
+                        <h:panelGrid cellspacing="10" style="text-align: center" columns="2">
+                        
+                        <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                Client
+                            </f:facet>
+                            
+                             <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_idclient}"/>
+                             <h:outputText value="#{commandeController.selected.client.idclient}" title="#{myBundle.ViewClientTitle_idclient}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_nom}"/>
+                        <h:outputText value="#{commandeController.selected.client.nom}" title="#{myBundle.ViewClientTitle_nom}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_prenom}"/>
+                        <h:outputText value="#{commandeController.selected.client.prenom}" title="#{myBundle.ViewClientTitle_prenom}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_cin}"/>
+                        <h:outputText value="#{commandeController.selected.client.cin}" title="#{myBundle.ViewClientTitle_cin}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_adresse}"/>
+                        <h:outputText value="#{commandeController.selected.client.adresse}" title="#{myBundle.ViewClientTitle_adresse}"/>
+
+                        <h:outputText style="font-weight: bold" value="#{myBundle.ViewClientLabel_email}"/>
+                        <h:outputText value="#{commandeController.selected.client.email}" title="#{myBundle.ViewClientTitle_email}"/>
+
+                        <h:outputText style="font-weight: bold" value="Nombre de commande passé"/>
+                        <h:outputText value="#{commandeController.selected.client.commandeCollection.size()}" />
+
+                        </p:panelGrid>
+                          <p:panelGrid columns="2">
+                            <f:facet name="header">
+                                Détail Commande
+                            </f:facet>
+                              
+                             <h:outputText style="font-weight: bold" value="Numéro commande"/>
+                             <h:outputText value="#000#{commandeController.selected.id}"/>
+                             
+                              <h:outputText style="font-weight: bold" value="Date de commande"/>
+                              <h:outputText value="#{commandeController.selected.dateCmd}"/>
+                              
+                              <h:outputText style="font-weight: bold" value="Nombre des articles"/>
+                              <h:outputText value="#{commandeController.selected.ligneCommandeCollection.size()}"/>
+                              
+                               <h:outputText style="font-weight: bold" value="Montant totale"/>
+                               <h:outputText value="#{commandeController.selected.montant} DT"/>
+                               
+                                <h:outputText style="font-weight: bold" value="Commentaire"/>
+                                <h:outputText value="#{commandeController.selected.description}"/>
+
+                          </p:panelGrid>
+                    </h:panelGrid>
+                        <p:dataGrid value="#{commandeController.selected.ligneCommandeCollection}" var="lc"
+                        columns="4" style="border: 0"
+                        >
+                            <f:facet name="header">
+                                Liste des téléphones
+                            </f:facet>
+            <p:panel header="ref : 000#{lc.produit.idproduit}" style="background:#ffffff ;width: 180px;height: 240px">  
+            <h:panelGrid columns="1" style="width:100%"> 
+             
+            
+                           <p:graphicImage width="90px" height="110px" value="/resources/images/produit/#{lc.produit.image}.jpeg"/>
+                        
+            
+             
+                <span class="badge badge-important pull-right"> prix unitaire : #{lc.produit.pu} DT </span>
+                
+                    <h:outputLabel value="Quantité demandée : #{lc.qte}" />
+                    <h:outputLabel value="Quantité disponibe : #{lc.produit.quantite}" />
+                </h:panelGrid>
+              
+               
+          
+        </p:panel>  
+            </p:dataGrid>
+                        <br/>
+                        <p:commandButton value="Valider cette demande" onclick="PF('validation').show()" style="font-size: large"  icon="ui-icon-check"/>
+                    </center>
+                </p:fieldset>
+                
+                  <p:dialog id="dialog" width="500" closable="false" height="200" header="Confirmation" widgetVar="validation" dynamic="true" appendTo="@(body)" modal="true" >  
+                      <h:form>
+                          <h:outputText style="font-size: medium;font-weight: bold" value="Confirmation de la commande numéro #000#{commandeController.selected.id} du client #{commandeController.selected.client}! " /> 
+                      <br/>
+                      <h:panelGrid columns="2">
+                          <h:outputText value="Commentaires :" />
+                          <p:inputTextarea value="#{commandeController.selected.description}" rows="5" cols="40" />
+                      </h:panelGrid>
+                      <p:separator />
+                      
+                    <center>
+                        <p:commandButton rendered="#{commandeController.selected.type}" value="Valider" actionListener="#{commandeController.confirmCmd}" style="font-size: large;margin-top: 20px" icon="ui-icon-check" /> 
+                      <p:commandButton rendered="#{!commandeController.selected.type}" ajax="false" value="Envoyer Liste des Devis" actionListener="#{commandeController.confirmCmdDevis}" style="font-size: large;margin-top: 20px" icon="ui-icon-check" /> </center>
+<br/>
+
+                      </h:form>
+                  </p:dialog>  
+            </ui:define>
+
+           <ui:define name="gauche">
+                 <p:menu style="width: 100%">  
+        <p:submenu label="Gérer les commandes">  
+            <p:menuitem value="Les commande des clients" outcome="/faces/commande/list"  />  
+            <p:menuitem value="Les demandes de devis" outcome="/faces/commande/listDev" />  
+            <p:separator />
+                        <p:menuitem value="Historique des commandes" outcome="/faces/commande/list" />  
+
+        </p:submenu>  </p:menu>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

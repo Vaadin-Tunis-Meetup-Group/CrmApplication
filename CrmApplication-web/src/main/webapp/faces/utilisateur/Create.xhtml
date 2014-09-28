@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UtilisateurCreateDlg" widgetVar="UtilisateurCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateUtilisateurTitle}" closeOnEscape="true">
+
+            <h:form id="UtilisateurCreateForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="#{myBundle.CreateUtilisateurLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{utilisateurController.selected.nom}" title="#{myBundle.CreateUtilisateurTitle_nom}" required="true" requiredMessage="#{myBundle.CreateUtilisateurRequiredMessage_nom}" size="45" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUtilisateurLabel_prenom}" for="prenom" />
+                        <p:inputText id="prenom" value="#{utilisateurController.selected.prenom}" title="#{myBundle.CreateUtilisateurTitle_prenom}" required="true" requiredMessage="#{myBundle.CreateUtilisateurRequiredMessage_prenom}" size="45" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUtilisateurLabel_login}" for="login" />
+                        <p:inputText id="login" value="#{utilisateurController.selected.login}" title="#{myBundle.CreateUtilisateurTitle_login}" required="true" requiredMessage="#{myBundle.CreateUtilisateurRequiredMessage_login}" size="45" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUtilisateurLabel_mdp}" for="mdp" />
+                        <p:inputText id="mdp" value="#{utilisateurController.selected.mdp}" title="#{myBundle.CreateUtilisateurTitle_mdp}" required="true" requiredMessage="#{myBundle.CreateUtilisateurRequiredMessage_mdp}" size="45" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUtilisateurLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{utilisateurController.selected.email}" title="#{myBundle.CreateUtilisateurTitle_email}" required="true" requiredMessage="#{myBundle.CreateUtilisateurRequiredMessage_email}" size="45" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUtilisateurLabel_adresse}" for="adresse" />
+                        <p:inputTextarea rows="4" cols="30" id="adresse" value="#{utilisateurController.selected.adresse}" title="#{myBundle.CreateUtilisateurTitle_adresse}" />
+
+                        <p:outputLabel value="#{myBundle.CreateUtilisateurLabel_telephone}" for="telephone" />
+                        <p:inputText id="telephone" value="#{utilisateurController.selected.telephone}" title="#{myBundle.CreateUtilisateurTitle_telephone}" size="45" maxlength="255"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUtilisateurLabel_profil}" for="profil" />
+                        <p:selectOneMenu id="profil" value="#{utilisateurController.selected.profil}" required="true" requiredMessage="#{myBundle.EditUtilisateurRequiredMessage_profil}" converter="profilConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{profilController.items}"
+                                           var="profilItem"
+                                           itemValue="#{profilItem}"
+                                           itemLabel="#{profilItem.description.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{utilisateurController.saveNew}" value="#{myBundle.Save}" update="display,:UtilisateurListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('UtilisateurCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+ <script type="text/javascript">
+function handleSubmit(xhr, status, args) {
+   
+    if(args.validationFailed) {
+        PF('UtilisateurCreateDialog').jq.effect('shake', { times:3 }, 100);
+    } else {
+        PF('UtilisateurCreateDialog').hide();
+    }
+}
+        </script>
+    </ui:composition>
+
+</html>

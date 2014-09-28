@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/layout/template.xhtml">
+
+            <ui:define name="title">
+                Liste Reclamations
+            </ui:define>
+
+            <ui:define name="menu">
+                <ui:include  src="/WEB-INF/layout/appmenu.xhtml"/>
+
+            </ui:define>
+
+            <ui:define name="body">
+                <p:tabView id="reclamationTab">
+                    <p:tab title="Gérer les réclamation">
+                    <p:dataTable id="datalist" value="#{reclamationController.allReclamation}" var="item"
+                                 rowKey="#{item.id}"
+                                 paginator="true"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30"
+                                 >
+
+
+                        <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                            <f:facet name="header">
+                                <h:outputText value="Numéro réclamation"/>
+                            </f:facet>
+                            <h:outputText value="#000#{item.id}"/>
+                        </p:column>
+
+
+                        <p:column sortBy="#{item.client}" filterBy="#{item.client}">
+                            <f:facet name="header">
+                                <h:outputText value="Client"/>
+                            </f:facet>
+                            <h:outputText value="#{item.client}"/>
+                        </p:column>
+
+
+                        <p:column sortBy="#{item.dateRecl}" filterBy="#{item.dateRecl}">
+                            <f:facet name="header">
+                                <h:outputText value="Date de réclamation"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateRecl}">
+                                  <f:convertDateTime pattern="dd-MM-yyyy hh:mm" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column sortBy="#{item.commande.id}" filterBy="#{item.commande.id}">
+                            <f:facet name="header">
+                                <h:outputText value="Commande concerné"/>
+                            </f:facet>
+                            <h:outputText value="#000#{item.commande.id}"/>
+                        </p:column>
+
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Options"/>
+                            </f:facet>
+                            <p:commandLink style="color: dodgerblue" action="/faces/reclamation/detail?faces-redirect=true" value="voir details">
+
+                                <f:setPropertyActionListener value="#{item}"   
+                                                             target="#{reclamationController.selected}" />  
+
+                            </p:commandLink>
+                        </p:column>
+
+                    </p:dataTable>
+                    </p:tab>
+                    <p:tab title="Historique des réclamation">
+                         <p:dataTable id="datalist2" value="#{reclamationController.historique}" var="item"
+                                 rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+              <p:column style="width:4%">
+            <p:rowToggler />
+        </p:column>
+                        <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="Numéro réclamation"/>
+                    </f:facet>
+                            <h:outputText value="#000#{item.id}"/>
+                </p:column>
+                        
+                        
+                        <p:column sortBy="#{item.client}" filterBy="#{item.client}">
+                    <f:facet name="header">
+                        <h:outputText value="Client"/>
+                    </f:facet>
+                            <h:outputText value="#{item.client}"/>
+                </p:column>
+                        
+                        
+                        <p:column sortBy="#{item.dateRecl}" filterBy="#{item.dateRecl}">
+                    <f:facet name="header">
+                        <h:outputText value="Date de réclamation"/>
+                    </f:facet>
+                            <h:outputText value="#{item.dateRecl}">
+                                  <f:convertDateTime pattern="dd-MM-yyyy hh:mm" />
+                            </h:outputText>
+                </p:column>
+                        
+                        <p:column sortBy="#{item.commande.id}" filterBy="#{item.commande.id}">
+                    <f:facet name="header">
+                        <h:outputText value="Commande concerné"/>
+                    </f:facet>
+                            <h:outputText value="#000#{item.commande.id}"/>
+                </p:column>
+                        
+                         <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Date réponse"/>
+                    </f:facet>
+                             <h:outputText value="#{item.dateRep}" >
+                                   <f:convertDateTime pattern="dd-MM-yyyy hh:mm" />
+                             </h:outputText>
+             
+        
+                </p:column>
+                        
+                        <p:rowExpansion  styleClass="myrow">
+                            <p:accordionPanel multiple="true" activeIndex="0,1">
+                                <p:tab title="Sujet">
+                                    <h:outputText escape="false" value="#{item.sujet}" />
+                                </p:tab>
+                                 <p:tab title="Réponse service après vente">
+                                     <h:outputText escape="false" value="#{item.reponse}" />
+                                </p:tab>
+                            </p:accordionPanel>
+        </p:rowExpansion>
+                        
+                 </p:dataTable>
+                    </p:tab>
+                </p:tabView>
+            </ui:define>
+
+            <ui:define name="gauche">
+                <p:menu style="width: 100%">  
+                    <p:submenu label="Gérer les Réclamations">  
+                        <p:menuitem value="Réclamation non lus" outcome="/faces/reclamation/list"  />  
+
+                        <p:separator />
+                        <p:menuitem value="Historique des réclamations" outcome="/faces/reclamation/historique" />  
+
+                    </p:submenu>  </p:menu>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../WEB-INF/layout/template.xhtml">
+
+            <ui:define name="title">
+                Liste de documents
+            </ui:define>
+
+            <ui:define name="menu">
+                 <ui:include src="/WEB-INF/layout/appmenu.xhtml"/>
+            </ui:define>
+
+            <ui:define name="body">
+              
+                    <p:tabView >
+                        <p:tab title="Liste des commandes">
+                    <p:dataTable id="datalist1" value="#{commandeController.allCmd}" var="item"
+                                 rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+              
+                        <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="Numéro de commande"/>
+                    </f:facet>
+                            <h:outputText value="#000#{item.id}"/>
+                </p:column>
+                        
+                        
+                        <p:column sortBy="#{item.client}" filterBy="#{item.client}">
+                    <f:facet name="header">
+                        <h:outputText value="Client"/>
+                    </f:facet>
+                            <h:outputText value="#{item.client}"/>
+                </p:column>
+                        
+                        
+                        <p:column sortBy="#{item.dateCmd}" filterBy="#{item.dateCmd}">
+                    <f:facet name="header">
+                        <h:outputText value="Date de la commande"/>
+                    </f:facet>
+                            <h:outputText value="#{item.dateCmd}">
+                             <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                            </h:outputText>
+                </p:column>
+                        
+                        <p:column sortBy="#{item.montant}" filterBy="#{item.montant}">
+                    <f:facet name="header">
+                        <h:outputText value="Montant"/>
+                    </f:facet>
+                            <h:outputText value="#{item.montant} DT"/>
+                </p:column>
+                        
+                         <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Nombre d'articles"/>
+                    </f:facet>
+                             <h:outputText value="#{item.ligneCommandeCollection.size()}"/>
+                </p:column>
+                        
+                         <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Options"/>
+                    </f:facet>
+                             <p:commandLink action="/faces/commande/detail?faces-redirect=true" value="voir details">
+                      
+                    <f:setPropertyActionListener value="#{item}"   
+                                                 target="#{commandeController.selected}" />  
+             
+                </p:commandLink>
+                </p:column>
+                        
+                 </p:dataTable>
+                        </p:tab>
+                        <p:tab title="Demandes de devis">
+                              <p:dataTable id="datalist2" value="#{commandeController.allDev}" var="item"
+                                 rowKey="#{item.id}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+
+              
+                        <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="Numéro de demande"/>
+                    </f:facet>
+                            <h:outputText value="#000#{item.id}"/>
+                </p:column>
+                        
+                        
+                        <p:column sortBy="#{item.client}" filterBy="#{item.client}">
+                    <f:facet name="header">
+                        <h:outputText value="Client"/>
+                    </f:facet>
+                            <h:outputText value="#{item.client}"/>
+                </p:column>
+                        
+                        
+                        <p:column sortBy="#{item.dateCmd}" filterBy="#{item.dateCmd}">
+                    <f:facet name="header">
+                        <h:outputText value="Date de la demande"/>
+                    </f:facet>
+                            <h:outputText value="#{item.dateCmd}">
+                                 <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                            </h:outputText>
+                </p:column>
+                        
+                        <p:column sortBy="#{item.montant}" filterBy="#{item.montant}">
+                    <f:facet name="header">
+                        <h:outputText value="Montant"/>
+                    </f:facet>
+                            <h:outputText value="#{item.montant} DT"/>
+                </p:column>
+                        
+                         <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Nombre d'articles"/>
+                    </f:facet>
+                             <h:outputText value="#{item.ligneCommandeCollection.size()}"/>
+                </p:column>
+                        
+                         <p:column >
+                    <f:facet name="header">
+                        <h:outputText value="Options"/>
+                    </f:facet>
+                             <p:commandLink action="/faces/commande/detail?faces-redirect=true" value="voir details">
+                      
+                    <f:setPropertyActionListener value="#{item}"   
+                                                 target="#{commandeController.selected}" />  
+             
+                </p:commandLink>
+                </p:column>
+                        
+                 </p:dataTable>
+                        </p:tab>
+                         <p:tab title="Historiques">
+                                 <h:form id="HistoForm">
+                            <p:dataTable id="datalist3" value="#{commandeController.allHisto}" var="item"
+                                 rowKey="#{item.id}"
+                                 paginator="true"
+                                 rows="10" scrollable="true" scrollHeight="300"
+                                 rowsPerPageTemplate="10,20,30"
+                                 >
+<f:facet name="header">
+    <p:outputPanel style="float: right">
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="datalist3" fileName="Commandes" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="datalist3" fileName="Commandes"/>
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/csv.png" width="24"/>
+                <p:dataExporter type="csv" target="datalist3" fileName="Commandes" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/xml.png" width="24"/>
+                <p:dataExporter type="xml" target="datalist3" fileName="Commandes" />
+            </h:commandLink>
+    </p:outputPanel>
+        </f:facet>
+
+                        <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                            <f:facet name="header">
+                                <h:outputText value="Numéro"/>
+                            </f:facet>
+                            <h:outputText value="#000#{item.id}"/>
+                        </p:column>
+
+
+                        <p:column sortBy="#{item.client}" filterBy="#{item.client}">
+                            <f:facet name="header">
+                                <h:outputText value="Client"/>
+                            </f:facet>
+                            <h:outputText value="#{item.client}"/>
+                        </p:column>
+
+
+                                <p:column style="height: 60px" sortBy="#{item.dateCmd}" filterBy="#{item.dateCmd}">
+                            <f:facet name="header">
+                                <h:outputText value="Date de demande "/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateCmd}">
+                                 <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column sortBy="#{item.montant}" filterBy="#{item.montant}">
+                            <f:facet name="header">
+                                <h:outputText value="Montant"/>
+                            </f:facet>
+                            <h:outputText value="#{item.montant} DT"/>
+                        </p:column>
+
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Date de confirmation"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateReponse}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText rendered="#{item.type}" value="Commande" />
+                            <h:outputText rendered="#{!item.type}" value="Devis" />
+
+                        </p:column>
+
+                    </p:dataTable>
+                                 </h:form>
+                        </p:tab>
+                    </p:tabView>
+            </ui:define>
+
+            <ui:define name="gauche">
+                 <p:menu style="width: 100%">  
+        <p:submenu label="Gérer les commandes">  
+            <p:menuitem value="Les commande des clients" outcome="/faces/commande/list"  />  
+            <p:menuitem value="Les demandes de devis" outcome="/faces/commande/listDev" />  
+            <p:separator />
+                        <p:menuitem value="Historique des commandes" outcome="/faces/commande/historique" />  
+
+        </p:submenu>  </p:menu>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

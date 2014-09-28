@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+        <ui:composition template="./WEB-INF/layout/template.xhtml">
+
+         
+
+            <ui:define name="content">
+                <center>
+                    <p:outputPanel style="margin-left: 220px">
+                <p:dataGrid id="data" var="phone" value="#{phonesManager.allProduit}" columns="4"  
+                            rows="12" paginator="true" style="text-align: center;margin-left: 50px" 
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+        rowsPerPageTemplate="4,8,12,24,40,80,120">
+                  
+                    <p:panel header="ref : #000#{phone.idproduit}" style="background:#ffffff ;width: 210px;height: 260px">  
+     <!--
+     <a href="https://github.com/you"><img style="position: relative; top: 0; left: 0; border: 0;width: 20px" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"/></a>
+                -->
+     <h:panelGrid columns="1" style="width:100%"> 
+             
+                <p:commandLink action="JouetDetail?faces-redirect=true" title="voir details">
+                       <center>
+                           <p:graphicImage width="90px" height="90px" value="/resources/images/produit/#{phone.image}.jpeg"/>
+                        </center>
+                    <f:setPropertyActionListener value="#{phone}"   
+                                                 target="#{phonesManager.selected}" />  
+             
+                </p:commandLink>
+                <p:commandLink   update=":contentForm:phoneDetail"   oncomplete="PF('phoneDlg').show()" title="voir Detail">
+                   
+                          <p:graphicImage style="margin-left: 120px" width="20" height="20" value="/resources/images/detail.png"/>
+                       
+                    <f:setPropertyActionListener value="#{phone}"   
+                                                 target="#{phonesManager.selected}" />  
+             
+                </p:commandLink>
+                  
+                <p:commandLink id="fade" style="text-align: center;font-size: 14" title="voir fiche du produit" action="detailPhone?faces-redirect=true" value="#{phone.libelle}">
+                <f:setPropertyActionListener value="#{phone}"   
+                                                 target="#{phonesManager.selected}" />  
+                </p:commandLink>
+                <span style="margin-left: 30%" class="badge badge-important pull-right"> #{phone.pu} DT </span>
+                
+                <p:commandButton value="Ajouter Au Panier"
+                                 update=":contentForm:jouetCmd"
+                                 oncomplete="PF('infoCmd').show()"
+                                 style="font-size: 10px;margin-top: 10px" icon="ui-icon-cart" >
+                    <f:setPropertyActionListener value="#{phone}"   
+                                                 target="#{phonesManager.selected}" />  
+                </p:commandButton>
+               
+            </h:panelGrid>  
+        </p:panel>  
+                  
+                </p:dataGrid>
+                    </p:outputPanel>
+                </center>
+                      <p:dialog 
+                                 style="background: white" showEffect="puff"
+                                 hideEffect="explode"
+                                 width="400" height="350" widgetVar="phoneDlg">  
+        <p:outputPanel id="phoneDetail" style="text-align:center;" layout="block">  
+          <br/>
+          <p:graphicImage value="/resources/images/produit/#{phonesManager.selected.image}.jpeg"/>  
+           <br/> <br/>   
+            <h:panelGrid  columns="2" >  
+                <h:outputText style="font-size: 15px" value="#{phonesManager.selected.libelle}"/>
+                <h:outputText style="font-size: large;color: red;margin-left: 100px;background-color: yellow;padding: 5px 5px 5px 5px" value="#{jouetManagedbean.selectedJouet.prix} €"/>
+            </h:panelGrid>  
+        </p:outputPanel>  
+    </p:dialog>  
+                    
+                      <p:dialog header="vous venez d'ajouter au panier le(s) produit(s) suivant(s)"
+                                showEffect="puff" hideEffect="explode"
+                                width="600" style="background: white" height="200" widgetVar="infoCmd">  
+                       <p:outputPanel id="jouetCmd"  style="text-align:center;" layout="block">
+                          
+                               <h:panelGrid columns="3">
+                                   <p:graphicImage style="margin-left: 20px;margin-right: 70px" width="100px" height="120px" value="/resources/images/produit/#{phonesManager.selected.image}.jpeg"/>
+                                   <p:column>
+                                       <h:outputText value="#{phonesManager.selected.libelle}"/><br/>
+                                   <h:outputText value="Quantite : 1"/>
+                                   </p:column>
+                                   <h:outputText style="margin-left: 120px;font-weight: bold"  value="#{phonesManager.selected.pu} €"/>
+                               </h:panelGrid>
+                               <p:separator />
+                                <center>
+                                 <h:panelGrid columns="3">
+                                   <p:commandButton value="Continuer mes achats"
+                                                    actionListener="#{cartManager.AddItem(event, phonesManager.selected)}"
+                                                oncomplete="PF('infoCmd').hide()"
+                                                update=":topForm:mypanel"
+                                                icon="ui-icon-circle-triangle-w"
+                                                />  
+                               <p:spacer width="20" height="5" />
+                                  
+                               <p:commandButton value="Terminer ma commande"
+                                                icon="ui-icon-circle-triangle-e"
+                                                actionListener="#{cartManager.AddItem(event, phonesManager.selected)}"
+                                                action="monPanier?faces-redirect=true"
+                                                />
+                                 </h:panelGrid>
+                             
+                           </center>
+                       </p:outputPanel>
+                   </p:dialog>
+                  
+            </ui:define>
+
+            
+            <ui:define name="left">
+                     <h:form>
+
+                        <p:accordionPanel multiple="true" style="width: 280px">
+                            <p:tab title="Catgéorie">
+                                <p:selectManyCheckbox id="grid" converter="categorieConverter"
+                                                      value="#{phonesManager.selectedCateg}" layout="pageDirection" >
+                                    <f:selectItems value="#{phonesManager.allCateg}" var="categ" itemLabel="#{categ}" itemValue="#{categ}" />
+                                    <p:ajax listener="#{phonesManager.updatePhones()}" update=":contentForm:data" />
+                                </p:selectManyCheckbox>
+                            </p:tab>
+                            <p:tab title="Marque">
+                                <p:selectManyCheckbox  converter="marqueConverter"
+                                                      value="#{phonesManager.selectedMarque}" layout="pageDirection" >
+                                    <f:selectItems value="#{phonesManager.allMarque}" var="m" itemLabel="#{m}" itemValue="#{m}" />
+                                    <p:ajax listener="#{phonesManager.updatePhonesBMarque()}" update=":contentForm:data" />
+                                </p:selectManyCheckbox>
+                            </p:tab>
+                            <p:tab title="Prix">
+                                <p:selectOneRadio layout="pageDirection" value="#{phonesManager.selectedPrix}" >
+                                    <f:selectItem itemLabel="Inférieur à 100 $" itemValue="1" />
+                                    <f:selectItem itemLabel="Entre 100 et 500" itemValue="2" />
+                                    <f:selectItem itemLabel="Entre 500 et 1000" itemValue="3" />
+                                    <f:selectItem itemLabel="Supérieur à 1000" itemValue="4" />
+                                    
+                                    <p:ajax listener="#{phonesManager.updatePhonesByPu()}" update=":contentForm:data" />
+
+                                </p:selectOneRadio>
+                            </p:tab>
+                        </p:accordionPanel>
+                        <br/>
+                       
+                <p:panel header="Top vente" style="background:#ffffff ;width: 180px;height: 270px;margin-left: 50px">  
+    
+     <h:panelGrid columns="1" style="width:100%"> 
+             
+                <p:commandLink action="JouetDetail?faces-redirect=true" title="voir details">
+                       <center>
+                           <p:graphicImage width="90px" height="90px" value="/resources/images/produit/#{phonesManager.topVente.image}.jpeg"/>
+                        </center>
+                    <f:setPropertyActionListener value="#{phonesManager.topVente}"   
+                                                 target="#{phonesManager.selected}" />  
+             
+                </p:commandLink>
+                <p:commandLink   update=":contentForm:phoneDetail"   oncomplete="PF('phoneDlg').show()" title="voir Detail">
+                   
+                          <p:graphicImage style="margin-left: 120px" width="20" height="20" value="/resources/images/detail.png"/>
+                       
+                    <f:setPropertyActionListener value="#{phonesManager.topVente}"   
+                                                 target="#{phonesManager.selected}" />  
+             
+                </p:commandLink>
+                  
+                <p:commandLink id="fade" style="margin-left: 30%;font-size: 14" title="voir fiche du produit" action="detailPhone?faces-redirect=true" value="#{phonesManager.topVente.libelle}">
+                <f:setPropertyActionListener value="#{phonesManager.topVente}"   
+                                                 target="#{phonesManager.selected}" />  
+                </p:commandLink>
+                <span style="margin-left: 30%" class="badge badge-important pull-right"> #{phonesManager.topVente.pu} € </span>
+                
+                <p:commandButton value="Ajouter Au Panier"
+                                 update=":contentForm:jouetCmd"
+                                 oncomplete="PF('infoCmd').show()"
+                                 style="font-size: 10px;margin-top: 10px" icon="ui-icon-cart" >
+                    <f:setPropertyActionListener value="#{phone}"   
+                                                 target="#{phonesManager.selected}" />  
+                </p:commandButton>
+               
+            </h:panelGrid>  
+        </p:panel>  
+                        <br/>
+                          <center>
+                    <img style="margin-left: 30%" src="resources/images/payment_methods.png" title="Bootshop Payment Methods" alt="Payments Methods" />
+                
+                    </center>
+                    </h:form>
+            </ui:define>
+            
+        </ui:composition>
+
+</html>

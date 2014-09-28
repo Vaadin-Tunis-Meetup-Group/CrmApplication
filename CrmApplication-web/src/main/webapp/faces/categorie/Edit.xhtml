@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CategorieEditDlg" widgetVar="CategorieEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Modifier Catégorie " closeOnEscape="true">
+
+            <h:form id="CategorieEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" rendered="#{categorieController.selected != null}">
+
+                        <h:outputLabel value="#{myBundle.EditCategorieLabel_idcategorie}" for="idcategorie" />
+                        <h:outputText id="idcategorie" value="#{categorieController.selected.idcategorie}" />
+
+                        <p:outputLabel value="#{myBundle.EditCategorieLabel_libelle}" for="libelle" />
+                        <p:inputText id="libelle" value="#{categorieController.selected.libelle}" title="#{myBundle.EditCategorieTitle_libelle}" required="true" requiredMessage="#{myBundle.EditCategorieRequiredMessage_libelle}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditCategorieLabel_description}" for="description" />
+                        <p:inputTextarea rows="4" cols="30" id="description" value="#{categorieController.selected.description}" title="#{myBundle.EditCategorieTitle_description}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{categorieController.save}" value="#{myBundle.Save}" update="display,:produitTab:CategorieListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('CategorieEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+<script type="text/javascript">
+function handleSubmit(xhr, status, args) {
+   
+    if(args.validationFailed) {
+        PF('CategorieEditDialog').jq.effect('shake', { times:3 }, 100);
+    } else {
+        PF('CategorieEditDialog').hide();
+    }
+}
+        </script>
+    </ui:composition>
+
+</html>

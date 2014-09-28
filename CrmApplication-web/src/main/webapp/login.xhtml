@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Authentification</title>
+        <style type="text/css">
+            body {
+                background: #eeeeee url(./resources/img/bg.jpg) top left repeat;
+                position: absolute;
+              
+                
+            }
+            
+            .center_panel{
+                text-align: center;
+                margin-top: 25%;
+                margin-left: 40%;
+                border: 0;
+            }
+
+        </style>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl id="msg" />
+            <center>
+
+                <p:panelGrid styleClass="center_panel" columns="2">
+                 <f:facet name="header">
+                        Authentification
+                    </f:facet>
+                    <h:graphicImage width="300" height="200" value="/resources/images/logoo.png" />
+                <p:panelGrid  columns="2">
+                  
+                    <h:outputText value="Login"></h:outputText>
+                    <p:inputText placeholder="Entrez votre login" required="true" requiredMessage="Vous devez indiquer votre login" style="width: 250px" value="#{loginController.login}"></p:inputText>
+                    <h:outputText value="Mot de passe"></h:outputText>
+                    <p:password placeholder="Entrez votre mot de passe" required="true" requiredMessage="Vous devez indiquer votre mot de passe" style="width: 250px" value="#{loginController.password}"></p:password>
+                    <h:outputText value="Profil"></h:outputText>
+                    <p:selectOneMenu value="#{loginController.selectedProfil}"
+                                     required="true" requiredMessage="Vous devez indiquer votre profil"
+                                     converter="profilConverter"
+                                     converterMessage="ce n'est pas un profil">
+                        <f:selectItem noSelectionOption="" itemLabel="-- Selectionnez votre profil --" />
+                        <f:selectItems value="#{loginController.allProfil}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+                    </p:selectOneMenu>
+                    <p:commandButton icon="ui-icon-check" update="msg" actionListener="#{loginController.login(event)}" value="Valider"></p:commandButton>
+                    <p:commandButton  icon="ui-icon-close" type="reset" value="Annuler"></p:commandButton>
+                </p:panelGrid>
+     
+                </p:panelGrid>
+            </center>
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProduitCreateDlg" widgetVar="ProduitCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Ajouter un nouveau Téléphone" closeOnEscape="true">
+
+            <h:form id="ProduitCreateForm" >
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="Libellé" for="libelle" />
+                        <p:inputText id="libelle" value="#{produitController.selected.libelle}" title="#{myBundle.CreateProduitTitle_libelle}" required="true" requiredMessage="#{myBundle.CreateProduitRequiredMessage_libelle}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProduitLabel_model}" for="model" />
+                        <p:inputText id="model" value="#{produitController.selected.model}" title="#{myBundle.CreateProduitTitle_model}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="Prix unitaire" for="pu" />
+                        <p:inputText id="pu" value="#{produitController.selected.pu}" title="#{myBundle.CreateProduitTitle_pu}" required="true" requiredMessage="#{myBundle.CreateProduitRequiredMessage_pu}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProduitLabel_codeBarre}" for="codeBarre" />
+                        <p:inputText id="codeBarre" value="#{produitController.selected.codeBarre}" title="#{myBundle.CreateProduitTitle_codeBarre}" size="45" maxlength="100"/>
+
+                        <p:outputLabel value="Quantité" for="quantite" />
+                        <p:inputText id="quantite" value="#{produitController.selected.quantite}" title="#{myBundle.CreateProduitTitle_quantite}" required="true" requiredMessage="#{myBundle.CreateProduitRequiredMessage_quantite}"/>
+
+                        <p:outputLabel value="Image" for="img" />
+                        <p:selectOneMenu id="img" value="#{produitController.selected.image}" 
+                         effect="fade" var="t" style="width:160px" filter="true" >
+                            <f:selectItem noSelectionOption="true" itemLabel="Sélectionner une image" />
+                            <f:selectItems value="#{imageController.allImage}" var="img" itemLabel="#{img}" itemValue="#{img}" />
+ 
+            <p:column style="width:10%">
+                <h:graphicImage value="/resources/images/produit/#{t}.jpeg"/>
+            </p:column>
+ 
+            <p:column>
+                <h:outputText value="#{t} aa" />
+            </p:column>
+        </p:selectOneMenu>
+                        <p:outputLabel value="#{myBundle.CreateProduitLabel_couleur}" for="couleur" />
+                        <p:inputText id="couleur" value="#{produitController.selected.couleur}" title="#{myBundle.CreateProduitTitle_couleur}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProduitLabel_marque}" for="marque" />
+                        <p:selectOneMenu id="marque" value="#{produitController.selected.marque}"  converter="marqueConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{marqueController.items}"
+                                           var="marqueItem"
+                                           itemValue="#{marqueItem}"
+                                           itemLabel="#{marqueItem}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateProduitLabel_categorie}" for="categorie" />
+                        <p:selectOneMenu id="categorie" value="#{produitController.selected.categorie}"  converter="categorieConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{categorieController.items}"
+                                           var="categorieItem"
+                                           itemValue="#{categorieItem}"
+                                           itemLabel="#{categorieItem}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{produitController.saveNew}" value="#{myBundle.Save}" update="display,:produitTab:ProduitListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,ProduitCreateDialog);"/>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ProduitCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ClientListForm">
+
+        <p:panel header="#{myBundle.ListClientTitle}">
+            
+        <!--    <p:ajaxStatus onstart="PF('statusDialog').show()"  onsuccess="PF('statusDialog').hide()" />
+ 
+<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    <h:graphicImage value="/resources/images/aajax.gif" />
+</p:dialog>
+        -->
+
+            <p:dataTable id="datalist" value="#{clientController.items}" var="item"
+                         selectionMode="single" selection="#{clientController.selected}"
+                         rowKey="#{item.idclient}"
+                         paginator="true"
+                         rows="10"
+                         scrollable="true" scrollHeight="290"
+                         rowsPerPageTemplate="10,20,30"
+                         >
+                
+                 <p:outputPanel style="float: right">
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="datalist" fileName="Clients" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="datalist" fileName="Clients"/>
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/csv.png" width="24"/>
+                <p:dataExporter type="csv" target="datalist" fileName="Clients" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage value="/resources/images/xml.png" width="24"/>
+                <p:dataExporter type="xml" target="datalist" fileName="Clients" />
+            </h:commandLink>
+    </p:outputPanel>
+
+                <p:ajax event="rowSelect"   update="createButton activeButton viewButton editButton deleteButton"/>
+                <p:ajax event="rowUnselect" update="createButton activeButton viewButton editButton deleteButton"/>
+
+                <p:column sortBy="#{item.idclient}" filterBy="#{item.idclient}">
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idclient}"/>
+                </p:column>
+                <p:column sortBy="#{item.nom}" filterBy="#{item.nom}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientTitle_nom}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nom}"/>
+                </p:column>
+                <p:column sortBy="#{item.prenom}" filterBy="#{item.prenom}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientTitle_prenom}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.prenom}"/>
+                </p:column>
+                <p:column sortBy="#{item.cin}" filterBy="#{item.cin}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListClientTitle_cin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cin}"/>
+                </p:column>
+               
+                
+              
+               
+                <p:column sortBy="#{item.dateAjout}" filterBy="#{item.dateAjout}">
+                    <f:facet name="header">
+                        <h:outputText value="Date d'ajout"/>
+                    </f:facet>
+                    <h:outputText value="#{item.dateAjout}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                
+                  
+                <p:column headerText="Etat Compte">
+                
+                    <h:outputText value="n'est pas active" rendered="#{!item.etatCompte}" />
+                    
+                    <h:outputText value="Activé"  rendered="#{item.etatCompte}"/>
+
+                </p:column>
+               
+               
+                
+                <f:facet name="footer">
+                    <div class="footer-section">
+                        <p:commandButton id="createButton" rendered="false" icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{clientController.prepareCreate}" update=":ClientCreateForm" oncomplete="PF('ClientCreateDialog').show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{myBundle.View}" update=":ClientViewForm" oncomplete="PF('ClientViewDialog').show()" disabled="#{empty clientController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ClientEditForm" oncomplete="PF('ClientEditDialog').show()" disabled="#{empty clientController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{clientController.delete}" update=":growl,datalist" disabled="#{empty clientController.selected}"/>
+                        <p:commandButton id="activeButton" value="Activer Compte" icon="ui-icon-check" actionListener="#{clientController.activeCompte}" update=":growl,datalist" disabled="#{empty clientController.selected or clientController.selected.etatCompte}" >
+        <p:confirm header="Confirmation" message="Voulez vous activer ce compte?" icon="ui-icon-alert" />
+    </p:commandButton>
+                    
+                    </div>
+                </f:facet>
+
+            </p:dataTable>
+
+            
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="Oui" id="saveBtn" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+        <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
+    </p:confirmDialog>
+            <p:blockUI block="datalist" trigger="saveBtn" />
+          
+        </p:panel>
+
+    </h:form>
+    
+   
+
+</ui:composition>
